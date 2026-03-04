@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPro - Premium Computing Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #4169E1;
+            --dark-bg: #0D1117;
+            --dark-card: #161B22;
+            --text-light: #F0F6FC;
+            --text-gray: #8B949E;
+            --hover-glow: 0 0 20px rgba(65, 105, 225, 0.5);
+            --soft-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1f2e 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(65, 105, 225, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-blue);
+            text-shadow: var(--hover-glow);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .search-container {
+            position: relative;
+            margin: 0 2rem;
+        }
+
+        .search-bar {
+            background: var(--dark-card);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-light);
+            width: 300px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            border-color: var(--primary-blue);
+            box-shadow: var(--hover-glow);
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--dark-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-icon:hover {
+            background: var(--primary-blue);
+            box-shadow: var(--hover-glow);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(13, 17, 23, 0.7), rgba(13, 17, 23, 0.7)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23161B22" width="1200" height="800"/><circle cx="600" cy="400" r="200" fill="none" stroke="%234169E1" stroke-width="2" opacity="0.3"/><rect x="400" y="300" width="400" height="200" rx="20" fill="%2321262D" stroke="%234169E1" stroke-width="1"/></svg>') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(65, 105, 225, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-light) 0%, var(--primary-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--text-gray);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #6495ED 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--hover-glow);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 10px 40px rgba(65, 105, 225, 0.4);
+        }
+
+        /* Category Grid */
+        .categories {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-light);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: var(--dark-card);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(65, 105, 225, 0.2);
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--soft-shadow);
+            border-color: var(--primary-blue);
+        }
+
+        .category-image {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .category-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(13, 17, 23, 0.7) 0%, rgba(65, 105, 225, 0.3) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover .category-overlay {
+            opacity: 1;
+        }
+
+        .category-card:hover .category-img {
+            transform: scale(1.1);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            text-shadow: 0 0 20px rgba(65, 105, 225, 0.8);
+        }
+
+        .category-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle, var(--primary-blue) 2px, transparent 2px);
+            background-size: 20px 20px;
+            opacity: 0.1;
+        }
+
+        .category-content {
+            padding: 1.5rem;
+        }
+
+        .category-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .category-desc {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Deals Carousel */
+        .deals {
+            background: var(--dark-card);
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+        }
+
+        .deals-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 2rem;
+            padding: 2rem 0;
+            scroll-behavior: smooth;
+        }
+
+        .carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .carousel::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+            border-radius: 10px;
+        }
+
+        .carousel::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 10px;
+        }
+
+        .deal-card {
+            min-width: 300px;
+            background: var(--dark-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            border: 1px solid rgba(65, 105, 225, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .deal-card:hover {
+            transform: scale(1.05);
+            box-shadow: var(--soft-shadow);
+        }
+
+        .deal-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary-blue);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        /* Featured Products */
+        .featured {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--dark-card);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(65, 105, 225, 0.2);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+            box-shadow: var(--soft-shadow);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, #21262D 0%, #161B22 100%);
+            position: relative;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            color: var(--primary-blue);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: #6495ED;
+            box-shadow: var(--hover-glow);
+        }
+
+        /* Video Showcase */
+        .video-showcase {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--dark-card) 100%);
+            position: relative;
+        }
+
+        .video-showcase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(65, 105, 225, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .video-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .video-wrapper {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--soft-shadow);
+            border: 2px solid rgba(65, 105, 225, 0.3);
+            transition: all 0.3s ease;
+            background: var(--dark-card);
+        }
+
+        .video-wrapper:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 20px 60px rgba(65, 105, 225, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .hero-video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 18px;
+            background: var(--dark-card);
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(13, 17, 23, 0.8) 0%, rgba(65, 105, 225, 0.2) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-radius: 18px;
+        }
+
+        .video-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .play-button {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #6495ED 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(65, 105, 225, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(65, 105, 225, 0.8);
+        }
+
+        .play-icon {
+            font-size: 2rem;
+            color: white;
+            margin-left: 5px;
+        }
+
+        .video-info {
+            text-align: center;
+            margin-top: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .video-info h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .video-info p {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 30px rgba(65, 105, 225, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 50px rgba(65, 105, 225, 0.8);
+            }
+            100% {
+                box-shadow: 0 0 30px rgba(65, 105, 225, 0.5);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-bg);
+            padding: 4rem 2rem 2rem;
+            border-top: 1px solid rgba(65, 105, 225, 0.2);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 1rem;
+            color: var(--primary-blue);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            line-height: 2;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-blue);
+        }
+
+        .newsletter {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .newsletter input {
+            flex: 1;
+            background: var(--dark-card);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 0.75rem;
+            color: var(--text-light);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: var(--hover-glow);
+        }
+
+        .newsletter button {
+            background: var(--primary-blue);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter button:hover {
+            background: #6495ED;
+            box-shadow: var(--hover-glow);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .search-bar {
+                width: 200px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/HP_logo_2012.svg/200px-HP_logo_2012.svg.png" alt="HP Logo" width="40" height="40">
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="lapttt.html">Laptops</a></li>
+                <li><a href="#desktops">Desktops</a></li>
+                <li><a href="#monitors">Monitors</a></li>
+                <li><a href="#printers">Printers</a></li>
+                <li><a href="#ink">Ink & Toner</a></li>
+                <li><a href="#deals">Deals</a></li>
+                <li><a href="#accessories">Accessories</a></li>
+            </ul>
+            
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search products...">
+            </div>
+            
+            <div class="nav-icons">
+                <a href="#" class="nav-icon">🛒</a>
+                <a href="#" class="nav-icon">👤</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Power Your Vision</h1>
+            <p>Premium Devices for Work and Play</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary">Shop Now</a>
+                <a href="#" class="btn btn-secondary">Explore Deals</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories">
+        <h2 class="section-title">Shop by Category</h2>
+        <div class="category-grid">
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="laptop-Photoroom.png" alt="Premium Laptops" class="category-img">
+                    <div class="category-overlay">
+                        <div class="category-icon">💻</div>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title">Laptops</h3>
+                    <p class="category-desc">High-performance laptops for work and gaming</p>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-image">
+                   <img src="destop-Photoroom.png" alt="Desktop Computers" class="category-img">
+
+                    <div class="category-overlay">
+                        <div class="category-icon">🖥</div>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title">Desktops</h3>
+                    <p class="category-desc">Powerful desktop computers for any task</p>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="motion-Photoroom.png" alt="Professional Monitors" class="category-img">
+                    <div class="category-overlay">
+                        <div class="category-icon">🖥️</div>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title">Monitors</h3>
+                    <p class="category-desc">Ultra-wide and 4K displays for productivity</p>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="images (1)-Photoroom.png" alt="Modern Printers" class="category-img">
+                    <div class="category-overlay">
+                        <div class="category-icon">🖨️</div>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title">Printers</h3>
+                    <p class="category-desc">Professional printing solutions</p>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="inkPhotoroom.png" alt="Ink & Toner" class="category-img">
+                    <div class="category-overlay">
+                        <div class="category-icon">🖋️</div>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title">Ink & Toner</h3>
+                    <p class="category-desc">Original and compatible cartridges</p>
+                </div>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-image">
+                    <img src="images (3)-Photoroom.png" alt="Tech Accessories" class="category-img">
+                    <div class="category-overlay">
+                        <div class="category-icon">🖱️</div>
+                    </div>
+                </div>
+                <div class="category-content">
+                    <h3 class="category-title">Accessories</h3>
+                    <p class="category-desc">Essential tech accessories and peripherals</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deals Section -->
+    <section class="deals">
+        <div class="deals-container">
+            <h2 class="section-title">Hot Deals</h2>
+            <div class="carousel">
+                <div class="deal-card">
+                    <div class="deal-badge">30% OFF</div>
+                    <h3>HP Student Store Deals</h3>
+                    <p>Exclusive discounts, cashback, and bonus exchange values for students.</p>
+                    <div class="product-price">₹4,425</div>
+                </div>
+                
+                <div class="deal-card">
+                    <div class="deal-badge">20% OFF</div>
+                    <h3>HP Laptops (HP Store India)</h3>
+                    <p>Up to ~₹25,000 off via exchange; many laptops with 15-20% discounts.</p>
+                    <div class="product-price">₹25,000 </div>
+                </div>
+                
+                <div class="deal-card">
+                    <div class="deal-badge">~18% OFF</div>
+                    <h3>HP 15-fd0466TU, i5, 15.6-inch</h3>
+                    <p>~₹54,499 after ~18% off.</p>
+                    <div class="product-price">₹54,499</div>
+                </div>
+                
+                <div class="deal-card">
+                    <div class="deal-badge">20% OFF</div>
+                    <h3>HP Pavilion Plus 14 (Intel i5, 2K display, 16GB / 512GB)</h3>
+                    <p>~19-20% off; price ~₹74,499 after discount & bank offers.</p>
+                    <div class="product-price">₹74,499</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Showcase -->
+    <section class="video-showcase">
+        <div class="video-container">
+            <h2 class="section-title">Experience Innovation</h2>
+            <div class="video-wrapper">
+                <video class="hero-video" controls poster="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 450'><rect fill='%23161B22' width='800' height='450'/><circle cx='400' cy='225' r='60' fill='%234169E1' opacity='0.8'/><polygon points='380,205 380,245 420,225' fill='white'/></svg>">
+                    <source src="https://youtu.be/FyPHx1ov4T0?si=IJ7Flys9cJUGOWSL" type="video/mp4">
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.webm" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay">
+                    <div class="play-button" onclick="playVideo()">
+                        <div class="play-icon">▶</div>
+                    </div>
+                </div>
+            </div>
+            <div class="video-info">
+                <h3>Discover Our Latest Technology</h3>
+                <p>Watch how our cutting-edge devices are transforming the way people work, create, and connect.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <div style="font-size: 3rem; color: var(--primary-blue); display: flex; align-items: center; justify-content: center; height: 100%;">💻</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">TechPro Elite Laptop</h3>
+                    
+                    <div class="product-price">$1,899</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <div style="font-size: 3rem; color: var(--primary-blue); display: flex; align-items: center; justify-content: center; height: 100%;">🖥️</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Pro Workstation Desktop</h3>
+                    <div class="product-price">$2,499</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <div style="font-size: 3rem; color: var(--primary-blue); display: flex; align-items: center; justify-content: center; height: 100%;">📱</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">4K Ultra Monitor</h3>
+                    <div class="product-price">$599</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Categories</h3>
+                <ul class="footer-links">
+                    <li><a href="lapttt.html">Laptops</a></li>
+                    <li><a href="#">Desktops</a></li>
+                    <li><a href="#">Monitors</a></li>
+                    <li><a href="#">Printers</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Stay updated with our latest deals and products</p>
+                <div class="newsletter">
+                    <input type="email" placeholder="Your email">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Video functionality
+        function playVideo() {
+            const video = document.querySelector('.hero-video');
+            const overlay = document.querySelector('.video-overlay');
+            
+            video.play();
+            overlay.classList.add('hidden');
+            
+            video.addEventListener('pause', function() {
+                overlay.classList.remove('hidden');
+            });
+            
+            video.addEventListener('ended', function() {
+                overlay.classList.remove('hidden');
+            });
+        }
+
+        // Add video event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.querySelector('.hero-video');
+            const overlay = document.querySelector('.video-overlay');
+            
+            video.addEventListener('click', function() {
+                if (video.paused) {
+                    playVideo();
+                } else {
+                    video.pause();
+                }
+            });
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add to cart functionality
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                this.textContent = 'Added!';
+                this.style.background = '#28a745';
+                setTimeout(() => {
+                    this.textContent = 'Add to Cart';
+                    this.style.background = '';
+                }, 2000);
+            });
+        });
+
+        // Search functionality
+        document.querySelector('.search-bar').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                alert('Search functionality would be implemented here!');
+            }
+        });
+
+        // Newsletter subscription
+        document.querySelector('.newsletter button').addEventListener('click', function() {
+            const email = document.querySelector('.newsletter input').value;
+            if (email) {
+                alert('Thank you for subscribing!');
+                document.querySelector('.newsletter input').value = '';
+            }
+        });
+    </script>
+</body>
+</html>

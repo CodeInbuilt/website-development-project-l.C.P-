@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HP Creators - Professional ZBook Laptops</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: background 0.3s;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .currency-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f8f9fa;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #e9ecef;
+        }
+
+        .currency-toggle:hover {
+            background: #e9ecef;
+        }
+
+        .currency-toggle.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1603302576837-37561b2e2302?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80') center/cover;
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .products {
+            background: white;
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #f0f0f0;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f2f5, #e8eaf0);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .product-specs {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .spec-item {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+        }
+
+        .inr-price {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            flex: 1;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #e9ecef;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .btn-compare {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-compare:hover {
+            background: #138496;
+            transform: translateY(-2px);
+        }
+
+        .features {
+            background: #f8f9fa;
+            padding: 4rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .cart-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 1rem;
+            border-radius: 50%;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .cart-indicator:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            z-index: 1001;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+            animation: modalFadeIn 0.3s;
+        }
+
+        @keyframes modalFadeIn {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-image {
+            width: 40%;
+            padding-right: 2rem;
+        }
+
+        .modal-image img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .modal-details {
+            width: 60%;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-price {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .modal-inr-price {
+            font-size: 1.5rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .modal-specs {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-specs h3 {
+            margin-bottom: 1rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Cart Modal */
+        .cart-modal {
+            max-width: 600px;
+        }
+
+        .cart-items {
+            margin-bottom: 2rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-item-image img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+        }
+
+        .cart-item-price {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 1rem 0;
+            border-top: 2px solid #eee;
+        }
+
+        /* Comparison Modal */
+        .comparison-modal {
+            max-width: 1000px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .compare-product {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .compare-product img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+        }
+
+        .search-button {
+            padding: 0.8rem 1.5rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+
+            .modal-header {
+                flex-direction: column;
+            }
+
+            .modal-image, .modal-details {
+                width: 100%;
+            }
+
+            .modal-image {
+                padding-right: 0;
+                margin-bottom: 1rem;
+            }
+
+            .filter-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">HP Creators</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="currency-toggle" id="currencyToggle">
+                <span>USD</span>
+                <i class="fas fa-exchange-alt"></i>
+                <span>INR</span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <h1>ZBook Series</h1>
+            <p>Professional Creator Laptops for Every Workflow</p>
+        </div>
+    </section>
+
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">Our ZBook Collection</h2>
+            
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search for products..." id="searchInput">
+                <button class="search-button" onclick="searchProducts()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label>Filter by:</label>
+                    <select class="filter-select" id="priceFilter" onchange="filterProducts()">
+                        <option value="all">All Prices</option>
+                        <option value="low">Under $1,500</option>
+                        <option value="medium">$1,500 - $2,500</option>
+                        <option value="high">Over $2,500</option>
+                    </select>
+                    <select class="filter-select" id="specFilter" onchange="filterProducts()">
+                        <option value="all">All Specs</option>
+                        <option value="high-ram">High RAM (64GB+)</option>
+                        <option value="4k-display">4K Display</option>
+                        <option value="xeon">Xeon Processors</option>
+                    </select>
+                </div>
+                <button class="btn btn-compare" onclick="openComparisonModal()">
+                    <i class="fas fa-balance-scale"></i> Compare Products
+                </button>
+            </div>
+            
+            <div class="product-grid" id="productGrid">
+                <!-- Product cards will be dynamically populated -->
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose ZBook?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Professional Performance</h3>
+                    <p>ISV certified for professional applications like AutoCAD, SolidWorks, and Adobe Creative Suite</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Enterprise Security</h3>
+                    <p>Built-in security features including HP Sure Start, TPM 2.0, and biometric authentication</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Color Accuracy</h3>
+                    <p>DreamColor displays with factory color calibration for precise visual work</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Built to Last</h3>
+                    <p>MIL-STD tested durability with comprehensive warranty and support options</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <p>&copy; 2024 HP Creators. Professional ZBook laptops for creative professionals.</p>
+            <p>Contact: sales@hpcreators.com | 1-800-HP-ZBOOK</p>
+        </div>
+    </footer>
+
+    <div class="cart-indicator" onclick="openCartModal()">
+        🛒
+        <span class="cart-count" id="cartCount">0</span>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('productModal')">&times;</span>
+            <div class="modal-header">
+                <div class="modal-image">
+                    <img id="modalImage" src="" alt="Product Image">
+                </div>
+                <div class="modal-details">
+                    <h2 class="modal-title" id="modalTitle"></h2>
+                    <div class="modal-price" id="modalPrice"></div>
+                    <div class="modal-inr-price" id="modalInrPrice"></div>
+                    <div class="modal-specs" id="modalSpecs"></div>
+                    <div class="modal-buttons">
+                        <button class="btn btn-primary" id="modalAddToCart">Add to Cart</button>
+                        <button class="btn btn-secondary" onclick="closeModal('productModal')">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content cart-modal">
+            <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
+            <h2>Your Shopping Cart</h2>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be dynamically populated -->
+            </div>
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0</span>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                <button class="btn btn-secondary" onclick="closeModal('cartModal')">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Modal -->
+    <div class="modal" id="comparisonModal">
+        <div class="modal-content comparison-modal">
+            <span class="close-modal" onclick="closeModal('comparisonModal')">&times;</span>
+            <h2>Compare Products</h2>
+            <div class="comparison-table-container">
+                <table class="comparison-table" id="comparisonTable">
+                    <!-- Comparison table will be dynamically populated -->
+                </table>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="closeModal('comparisonModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Product data
+        const products = [
+            {
+                id: 1,
+                name: "HP ZBook Studio G9",
+                price: 2299,
+                image: "hp website/Zbook_G9.jpg",
+                specs: [
+                    "Intel Core i7/i9 Processors",
+                    "NVIDIA RTX Graphics",
+                    "15.6\" 4K DreamColor Display",
+                    "Up to 64GB RAM",
+                    "Ultra-portable design"
+                ],
+                category: "medium",
+                tags: ["4k-display"]
+            },
+            {
+                id: 2,
+                name: "HP ZBook Studio G8",
+                price: 3499,
+                image: "hp website/zbook_studio.jpg",
+                specs: [
+                    "Intel Xeon/Core i9 Processors",
+                    "NVIDIA RTX A5000 Graphics",
+                    "17.3\" 4K Display",
+                    "Up to 128GB RAM",
+                    "Maximum performance"
+                ],
+                category: "high",
+                tags: ["4k-display", "high-ram", "xeon"]
+            },
+            {
+                id: 3,
+                name: "HP ZBook Firefly",
+                price: 1799,
+                image: "hp website/ZBook_Firefly.jpg",
+                specs: [
+                    "Intel Core i5/i7 Processors",
+                    "NVIDIA Quadro Graphics",
+                    "14\" Full HD Display",
+                    "Up to 32GB RAM",
+                    "Ultra-lightweight"
+                ],
+                category: "medium",
+                tags: []
+            },
+            {
+                id: 4,
+                name: "HP ZBook Power",
+                price: 1399,
+                image: "hp website/power.png",
+                specs: [
+                    "Intel® Core™ Ultra 7 processors",
+                    "NVIDIA RTX™ 2000 Ada Generation Graphics",
+                    "16\" Full HD Display",
+                    "Up to 64GB RAM",
+                    "Best value performance"
+                ],
+                category: "low",
+                tags: ["high-ram"]
+            },
+            {
+                id: 5,
+                name: "HP ZBook Create",
+                price: 1999,
+                image: "hp website/ZbookGcreate8.png",
+                specs: [
+                    "Intel Core i7/i9 Processors",
+                    "NVIDIA GeForce RTX Graphics",
+                    "15.6\" 4K OLED Display",
+                    "Up to 32GB RAM",
+                    "Gaming-grade graphics"
+                ],
+                category: "medium",
+                tags: ["4k-display"]
+            },
+            {
+                id: 6,
+                name: "HP ZBook Edge",
+                price: 1199,
+                image: "hp website/ZbookGcreate8.png",
+                specs: [
+                    "AMD Ryzen Processors",
+                    "AMD Radeon Graphics",
+                    "15.6\" Full HD Display",
+                    "Up to 32GB RAM",
+                    "AMD-powered efficiency"
+                ],
+                category: "low",
+                tags: []
+            }
+        ];
+
+        let cart = [];
+        let cartCount = 0;
+        let compareList = [];
+        let currentCurrency = 'USD'; // Default currency
+        const exchangeRate = 83.5; // USD to INR exchange rate
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts(products);
+            setupCurrencyToggle();
+        });
+
+        // Setup currency toggle
+        function setupCurrencyToggle() {
+            const currencyToggle = document.getElementById('currencyToggle');
+            currencyToggle.addEventListener('click', function() {
+                currentCurrency = currentCurrency === 'USD' ? 'INR' : 'USD';
+                currencyToggle.classList.toggle('active');
+                renderProducts(products);
+                updateCartUI();
+            });
+        }
+
+        // Format price based on currency
+        function formatPrice(price) {
+            if (currentCurrency === 'INR') {
+                const inrPrice = Math.round(price * exchangeRate);
+                return `₹${inrPrice.toLocaleString('en-IN')}`;
+            } else {
+                return `$${price.toLocaleString('en-US')}`;
+            }
+        }
+
+        // Render products to the grid
+        function renderProducts(productsToRender) {
+            const productGrid = document.getElementById('productGrid');
+            productGrid.innerHTML = '';
+            
+            productsToRender.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                const price = formatPrice(product.price);
+                const inrPrice = currentCurrency === 'USD' ? 
+                    `<div class="inr-price">₹${Math.round(product.price * exchangeRate).toLocaleString('en-IN')}</div>` : '';
+                
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <h3 class="product-name">${product.name}</h3>
+                    <div class="product-specs">
+                        ${product.specs.map(spec => `<div class="spec-item">• ${spec}</div>`).join('')}
+                    </div>
+                    <div class="price">${price}</div>
+                    ${inrPrice}
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="addToCart(${product.id})">Add to Cart</button>
+                        <button class="btn btn-secondary" onclick="openProductModal(${product.id})">View Details</button>
+                        <button class="btn btn-compare" onclick="addToCompare(${product.id})">Compare</button>
+                    </div>
+                `;
+                productGrid.appendChild(productCard);
+            });
+        }
+
+        // Add product to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            cart.push(product);
+            cartCount++;
+            updateCartUI();
+            showToast(`${product.name} added to cart!`);
+            
+            // Add bounce animation to cart
+            const cartIcon = document.querySelector('.cart-indicator');
+            cartIcon.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                cartIcon.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        // Update cart UI
+        function updateCartUI() {
+            document.getElementById('cartCount').textContent = cartCount;
+            
+            // Update cart modal if open
+            const cartItems = document.getElementById('cartItems');
+            if (cartItems) {
+                cartItems.innerHTML = '';
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-item';
+                    cartItem.innerHTML = `
+                        <div class="cart-item-info">
+                            <div class="cart-item-image">
+                                <img src="${item.image}" alt="${item.name}">
+                            </div>
+                            <div class="cart-item-name">${item.name}</div>
+                        </div>
+                        <div class="cart-item-price">${formatPrice(item.price)}</div>
+                    `;
+                    cartItems.appendChild(cartItem);
+                    total += item.price;
+                });
+                
+                document.getElementById('cartTotal').textContent = formatPrice(total);
+            }
+        }
+
+        // Open product detail modal
+        function openProductModal(productId) {
+            const product = products.find(p => p.id === productId);
+            document.getElementById('modalImage').src = product.image;
+            document.getElementById('modalTitle').textContent = product.name;
+            document.getElementById('modalPrice').textContent = formatPrice(product.price);
+            
+            // Show INR price in modal if currency is USD
+            if (currentCurrency === 'USD') {
+                document.getElementById('modalInrPrice').textContent = `₹${Math.round(product.price * exchangeRate).toLocaleString('en-IN')}`;
+                document.getElementById('modalInrPrice').style.display = 'block';
+            } else {
+                document.getElementById('modalInrPrice').style.display = 'none';
+            }
+            
+            document.getElementById('modalSpecs').innerHTML = `
+                <h3>Specifications</h3>
+                <ul>
+                    ${product.specs.map(spec => `<li>${spec}</li>`).join('')}
+                </ul>
+            `;
+            
+            // Update add to cart button
+            const addToCartBtn = document.getElementById('modalAddToCart');
+            addToCartBtn.onclick = function() {
+                addToCart(productId);
+                closeModal('productModal');
+            };
+            
+            document.getElementById('productModal').style.display = 'block';
+        }
+
+        // Open cart modal
+        function openCartModal() {
+            if (cart.length === 0) {
+                showToast('Your cart is empty');
+                return;
+            }
+            
+            updateCartUI();
+            document.getElementById('cartModal').style.display = 'block';
+        }
+
+        // Add product to compare list
+        function addToCompare(productId) {
+            const product = products.find(p => p.id === productId);
+            
+            if (compareList.includes(productId)) {
+                showToast(`${product.name} is already in comparison`);
+                return;
+            }
+            
+            if (compareList.length >= 3) {
+                showToast('You can compare up to 3 products');
+                return;
+            }
+            
+            compareList.push(productId);
+            showToast(`${product.name} added to comparison`);
+        }
+
+        // Open comparison modal
+        function openComparisonModal() {
+            if (compareList.length === 0) {
+                showToast('Add products to compare first');
+                return;
+            }
+            
+            const comparisonTable = document.getElementById('comparisonTable');
+            comparisonTable.innerHTML = '';
+            
+            // Create header row with product names
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = '<th>Specification</th>';
+            
+            compareList.forEach(productId => {
+                const product = products.find(p => p.id === productId);
+                headerRow.innerHTML += `
+                    <th>
+                        <div class="compare-product">
+                            <img src="${product.image}" alt="${product.name}">
+                            <div>${product.name}</div>
+                        </div>
+                    </th>
+                `;
+            });
+            comparisonTable.appendChild(headerRow);
+            
+            // Add price row
+            const priceRow = document.createElement('tr');
+            priceRow.innerHTML = '<td>Price</td>';
+            compareList.forEach(productId => {
+                const product = products.find(p => p.id === productId);
+                priceRow.innerHTML += `<td>${formatPrice(product.price)}</td>`;
+            });
+            comparisonTable.appendChild(priceRow);
+            
+            // Add specs rows
+            const maxSpecs = Math.max(...compareList.map(id => {
+                const product = products.find(p => p.id === id);
+                return product.specs.length;
+            }));
+            
+            for (let i = 0; i < maxSpecs; i++) {
+                const specRow = document.createElement('tr');
+                specRow.innerHTML = `<td>Specification ${i+1}</td>`;
+                
+                compareList.forEach(productId => {
+                    const product = products.find(p => p.id === productId);
+                    const spec = product.specs[i] || '-';
+                    specRow.innerHTML += `<td>${spec}</td>`;
+                });
+                
+                comparisonTable.appendChild(specRow);
+            }
+            
+            document.getElementById('comparisonModal').style.display = 'block';
+        }
+
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Filter products
+        function filterProducts() {
+            const priceFilter = document.getElementById('priceFilter').value;
+            const specFilter = document.getElementById('specFilter').value;
+            
+            let filteredProducts = [...products];
+            
+            // Apply price filter
+            if (priceFilter !== 'all') {
+                filteredProducts = filteredProducts.filter(product => {
+                    if (priceFilter === 'low') return product.price < 1500;
+                    if (priceFilter === 'medium') return product.price >= 1500 && product.price <= 2500;
+                    if (priceFilter === 'high') return product.price > 2500;
+                    return true;
+                });
+            }
+            
+            // Apply spec filter
+            if (specFilter !== 'all') {
+                filteredProducts = filteredProducts.filter(product => 
+                    product.tags.includes(specFilter)
+                );
+            }
+            
+            renderProducts(filteredProducts);
+        }
+
+        // Search products
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (searchTerm.trim() === '') {
+                renderProducts(products);
+                return;
+            }
+            
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.specs.some(spec => spec.toLowerCase().includes(searchTerm))
+            );
+            
+            renderProducts(filteredProducts);
+        }
+
+        // Proceed to checkout
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                showToast('Your cart is empty');
+                return;
+            }
+            
+            showToast('Proceeding to checkout...');
+            // In a real application, this would redirect to a checkout page
+            setTimeout(() => {
+                closeModal('cartModal');
+                cart = [];
+                cartCount = 0;
+                updateCartUI();
+            }, 2000);
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+    </script>
+</body>
+</html>

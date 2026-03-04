@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HP Business Laptops - Professional Computing Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2942 100%);
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #0096d6;
+            letter-spacing: 2px;
+        }
+
+        .cart-btn {
+            background: linear-gradient(135deg, #0096d6, #0066a1);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 150, 214, 0.4);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4444;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff, #c0c0c0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 24px;
+            color: #c0c0c0;
+            margin-bottom: 40px;
+        }
+
+        .categories {
+            padding: 60px 20px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .category-card {
+            background: linear-gradient(145deg, #1a2942, #0f1b2e);
+            border: 2px solid #2a3f5f;
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.4s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,150,214,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .category-card:hover::before {
+            opacity: 1;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            border-color: #0096d6;
+            box-shadow: 0 20px 40px rgba(0, 150, 214, 0.3);
+        }
+
+        .category-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .category-card h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #0096d6;
+        }
+
+        .category-card p {
+            color: #c0c0c0;
+            margin-bottom: 20px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .product-card {
+            background: linear-gradient(145deg, #1a2942, #0f1b2e);
+            border: 2px solid #2a3f5f;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: #0096d6;
+            box-shadow: 0 20px 40px rgba(0, 150, 214, 0.3);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #2a3f5f, #1a2942);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::after {
+            content: 'HP';
+            position: absolute;
+            font-size: 120px;
+            color: rgba(0, 150, 214, 0.1);
+            font-weight: bold;
+        }
+
+        .product-info {
+            padding: 30px;
+        }
+
+        .product-info h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .product-category {
+            color: #0096d6;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .specs {
+            margin: 20px 0;
+            color: #c0c0c0;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .price {
+            font-size: 32px;
+            color: #0096d6;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .buy-btn {
+            background: linear-gradient(135deg, #0096d6, #0066a1);
+            color: white;
+        }
+
+        .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 150, 214, 0.5);
+        }
+
+        .add-cart-btn {
+            background: rgba(192, 192, 192, 0.2);
+            color: #c0c0c0;
+            border: 2px solid #c0c0c0;
+        }
+
+        .add-cart-btn:hover {
+            background: #c0c0c0;
+            color: #0a1628;
+        }
+
+        .compare-btn {
+            background: rgba(0, 150, 214, 0.2);
+            color: #0096d6;
+            padding: 10px 20px;
+            border: 2px solid #0096d6;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .compare-btn:hover {
+            background: #0096d6;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, #1a2942, #0f1b2e);
+            border: 2px solid #0096d6;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            cursor: pointer;
+            color: #c0c0c0;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #0096d6;
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #2a3f5f;
+        }
+
+        .comparison-table th {
+            background: rgba(0, 150, 214, 0.2);
+            color: #0096d6;
+            font-weight: 600;
+        }
+
+        .cart-modal .modal-content {
+            max-width: 800px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .cart-total {
+            font-size: 32px;
+            color: #0096d6;
+            text-align: right;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #2a3f5f;
+        }
+
+        .remove-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: #cc0000;
+        }
+
+        .section-title {
+            font-size: 42px;
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff, #0096d6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">HP BUSINESS</div>
+                <button class="cart-btn" onclick="openCart()">
+                    🛒 Cart
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Professional Business Laptops</h1>
+            <p>Power Your Business with HP Excellence</p>
+        </div>
+    </section>
+
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Choose Your Performance Tier</h2>
+            <div class="category-grid">
+                <div class="category-card" onclick="filterCategory('everyday')">
+                    <div class="category-icon">💼</div>
+                    <h3>Everyday Productivity</h3>
+                    <p>Perfect for document editing, emails, web browsing, and video calls. Ideal for office workers and remote teams.</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('complex')">
+                    <div class="category-icon">⚡</div>
+                    <h3>Complex Tasks</h3>
+                    <p>Handle data analysis, multitasking, presentations, and moderate creative work with enhanced performance.</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('cxo')">
+                    <div class="category-icon">👔</div>
+                    <h3>Business Owners / CXOs</h3>
+                    <p>Premium laptops with superior build quality, security features, and executive-level performance.</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('unlimited')">
+                    <div class="category-icon">🚀</div>
+                    <h3>Unlimited Performance</h3>
+                    <p>Maximum power for learning, development, virtualization, and resource-intensive professional applications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Our Business Laptop Collection</h2>
+            <div class="product-grid" id="productGrid">
+                <!-- Products will be inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Modal -->
+    <div class="modal" id="compareModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeCompare()">&times;</span>
+            <h2 class="section-title">Compare Laptops</h2>
+            <div id="comparisonContent"></div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal cart-modal" id="cartModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeCart()">&times;</span>
+            <h2 class="section-title">Shopping Cart</h2>
+            <div id="cartContent"></div>
+            <div class="cart-total">
+                Total: ₹<span id="cartTotal">0</span>
+            </div>
+            <button class="btn buy-btn" style="width: 100%; margin-top: 20px;" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: "HP ProBook 440 G10",
+                Image: "ProBook 400.jpg",
+                category: "everyday",
+                categoryName: "Everyday Productivity",
+                price: 52990,
+                specs: "Intel Core i5-1335U | 8GB RAM | 512GB SSD | 14\" FHD | Windows 11 Pro",
+                processor: "Intel Core i5-1335U",
+                ram: "8GB DDR4",
+                storage: "512GB NVMe SSD",
+                display: "14\" FHD (1920x1080)",
+                weight: "1.4 kg"
+            },
+            {
+                id: 2,
+                name: "HP 245 G10",
+                category: "everyday",
+                categoryName: "Everyday Productivity",
+                price: 38990,
+                specs: "AMD Ryzen 5 7530U | 8GB RAM | 512GB SSD | 14\" FHD | Windows 11",
+                processor: "AMD Ryzen 5 7530U",
+                ram: "8GB DDR4",
+                storage: "512GB NVMe SSD",
+                display: "14\" FHD (1920x1080)",
+                weight: "1.47 kg"
+            },
+            {
+                id: 3,
+                name: "HP EliteBook 840 G10",
+                category: "complex",
+                categoryName: "Complex Tasks",
+                price: 125990,
+                specs: "Intel Core i7-1355U | 16GB RAM | 512GB SSD | 14\" FHD | Windows 11 Pro",
+                processor: "Intel Core i7-1355U",
+                ram: "16GB DDR5",
+                storage: "512GB NVMe SSD",
+                display: "14\" FHD IPS",
+                weight: "1.36 kg"
+            },
+            {
+                id: 4,
+                name: "HP ProBook 450 G10",
+                category: "complex",
+                categoryName: "Complex Tasks",
+                price: 73990,
+                specs: "Intel Core i7-1355U | 16GB RAM | 512GB SSD | 15.6\" FHD | Windows 11 Pro",
+                processor: "Intel Core i7-1355U",
+                ram: "16GB DDR4",
+                storage: "512GB NVMe SSD",
+                display: "15.6\" FHD",
+                weight: "1.74 kg"
+            },
+            {
+                id: 5,
+                name: "HP EliteBook 1040 G10",
+                category: "cxo",
+                categoryName: "Business Owners / CXOs",
+                price: 189990,
+                specs: "Intel Core i7-1365U | 32GB RAM | 1TB SSD | 14\" WUXGA | Windows 11 Pro",
+                processor: "Intel Core i7-1365U",
+                ram: "32GB LPDDR5",
+                storage: "1TB NVMe SSD",
+                display: "14\" WUXGA Touch",
+                weight: "1.19 kg"
+            },
+            {
+                id: 6,
+                name: "HP Elite Dragonfly G4",
+                category: "cxo",
+                categoryName: "Business Owners / CXOs",
+                price: 219990,
+                specs: "Intel Core i7-1355U | 32GB RAM | 1TB SSD | 13.5\" WUXGA+ | Windows 11 Pro",
+                processor: "Intel Core i7-1355U",
+                ram: "32GB LPDDR5",
+                storage: "1TB NVMe SSD",
+                display: "13.5\" WUXGA+ Touch",
+                weight: "0.99 kg"
+            },
+            {
+                id: 7,
+                name: "HP ZBook Power G10",
+                category: "unlimited",
+                categoryName: "Unlimited Performance",
+                price: 165990,
+                specs: "Intel Core i7-13700H | 32GB RAM | 1TB SSD | 15.6\" FHD | NVIDIA RTX A500",
+                processor: "Intel Core i7-13700H",
+                ram: "32GB DDR5",
+                storage: "1TB NVMe SSD",
+                display: "15.6\" FHD IPS",
+                weight: "2.0 kg"
+            },
+            {
+                id: 8,
+                name: "HP ZBook Studio G10",
+                category: "unlimited",
+                categoryName: "Unlimited Performance",
+                price: 249990,
+                specs: "Intel Core i9-13900H | 64GB RAM | 2TB SSD | 16\" WQUXGA | NVIDIA RTX 3000",
+                processor: "Intel Core i9-13900H",
+                ram: "64GB DDR5",
+                storage: "2TB NVMe SSD",
+                display: "16\" WQUXGA DreamColor",
+                weight: "1.73 kg"
+            }
+        ];
+
+        let cart = [];
+        let compareList = [];
+
+        function renderProducts(filter = 'all') {
+            const grid = document.getElementById('productGrid');
+            const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+            
+            grid.innerHTML = filtered.map(product => `
+                <div class="product-card">
+                    <div class="product-image">💻</div>
+                    <div class="product-info">
+                        <div class="product-category">${product.categoryName}</div>
+                        <h3>${product.name}</h3>
+                        <div class="specs">${product.specs}</div>
+                        <div class="price">₹${product.price.toLocaleString('en-IN')}</div>
+                        <div class="product-actions">
+                            <button class="btn buy-btn" onclick="buyNow(${product.id})">Buy Now</button>
+                            <button class="btn add-cart-btn" onclick="addToCart(${product.id})">Add to Cart</button>
+                        </div>
+                        <button class="compare-btn" onclick="addToCompare(${product.id})">Add to Compare</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(category) {
+            renderProducts(category);
+            window.scrollTo({ top: 600, behavior: 'smooth' });
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+            
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            
+            updateCartCount();
+            alert(`${product.name} added to cart!`);
+        }
+
+        function buyNow(id) {
+            const product = products.find(p => p.id === id);
+            alert(`Redirecting to checkout for ${product.name}...\nPrice: ₹${product.price.toLocaleString('en-IN')}`);
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+
+        function openCart() {
+            const modal = document.getElementById('cartModal');
+            const content = document.getElementById('cartContent');
+            
+            if (cart.length === 0) {
+                content.innerHTML = '<p style="text-align: center; padding: 40px; color: #c0c0c0;">Your cart is empty</p>';
+                document.getElementById('cartTotal').textContent = '0';
+            } else {
+                content.innerHTML = cart.map((item, index) => `
+                    <div class="cart-item">
+                        <div>
+                            <h3>${item.name}</h3>
+                            <p style="color: #c0c0c0;">Quantity: ${item.quantity}</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="price">₹${(item.price * item.quantity).toLocaleString('en-IN')}</div>
+                            <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                document.getElementById('cartTotal').textContent = total.toLocaleString('en-IN');
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            openCart();
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`Proceeding to checkout...\nTotal Amount: ₹${total.toLocaleString('en-IN')}\n\nThank you for choosing HP Business Laptops!`);
+            cart = [];
+            updateCartCount();
+            closeCart();
+        }
+
+        function addToCompare(id) {
+            const product = products.find(p => p.id === id);
+            
+            if (compareList.find(p => p.id === id)) {
+                alert('This laptop is already in comparison!');
+                return;
+            }
+            
+            if (compareList.length >= 3) {
+                alert('You can compare up to 3 laptops at a time!');
+                return;
+            }
+            
+            compareList.push(product);
+            alert(`${product.name} added to comparison!`);
+            
+            if (compareList.length >= 2) {
+                showComparison();
+            }
+        }
+
+        function showComparison() {
+            const modal = document.getElementById('compareModal');
+            const content = document.getElementById('comparisonContent');
+            
+            content.innerHTML = `
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            ${compareList.map(p => `<th>${p.name}</th>`).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Category</td>
+                            ${compareList.map(p => `<td>${p.categoryName}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td>Price</td>
+                            ${compareList.map(p => `<td style="color: #0096d6; font-weight: bold;">₹${p.price.toLocaleString('en-IN')}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td>Processor</td>
+                            ${compareList.map(p => `<td>${p.processor}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td>RAM</td>
+                            ${compareList.map(p => `<td>${p.ram}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td>Storage</td>
+                            ${compareList.map(p => `<td>${p.storage}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td>Display</td>
+                            ${compareList.map(p => `<td>${p.display}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td>Weight</td>
+                            ${compareList.map(p => `<td>${p.weight}</td>`).join('')}
+                        </tr>
+                        <tr>
+                            <td>Actions</td>
+                            ${compareList.map(p => `<td><button class="btn buy-btn" onclick="buyNow(${p.id})">Buy Now</button></td>`).join('')}
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn add-cart-btn" style="width: 100%; margin-top: 20px;" onclick="clearComparison()">Clear Comparison</button>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeCompare() {
+            document.getElementById('compareModal').style.display = 'none';
+        }
+
+        function clearComparison() {
+            compareList = [];
+            closeCompare();
+        }
+
+        // Initialize
+        renderProducts();
+    </script>
+</body>
+</html>
