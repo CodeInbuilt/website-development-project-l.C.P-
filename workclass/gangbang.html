@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unique Background Example</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(135deg, #89f7fe, #66a6ff); /* Cool gradient */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .section {
+    width: 100%;
+    max-width: 800px;
+    border-radius: 20px;
+    padding: 50px 30px;
+    margin: 20px 0;
+    text-align: center;
+    color: #fff;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .section:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 30px rgba(255,255,255,0.2);
+  }
+
+  .section.top {
+    background: linear-gradient(135deg, #fddb92, #d1fdff);
+    color: #222;
+  }
+
+  .section.bottom {
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    color: #222;
+  }
+
+  h2 {
+    font-size: 2.5em;
+    text-shadow: 0 0 10px rgba(255,255,255,0.4);
+    margin: 0;
+  }
+
+  /* Optional animated overlay for neon/glass effect */
+  .section::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%);
+    transform: rotate(30deg);
+    animation: moveOverlay 10s linear infinite;
+  }
+
+  @keyframes moveOverlay {
+    0% { transform: rotate(0deg) translate(0,0); }
+    100% { transform: rotate(360deg) translate(0,0); }
+  }
+</style>
+</head>
+<body>
+
+  <div class="section top">
+    <h2>Top Section</h2>
+  </div>
+
+  <div class="section bottom">
+    <h2>Bottom Section</h2>
+  </div>
+
+</body>
+</html>

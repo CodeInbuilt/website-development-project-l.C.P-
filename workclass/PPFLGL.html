@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nested List Example</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: #0d0d0d;
+    color: #00ffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 50px 20px;
+  }
+
+  h1 {
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00e5ff;
+    margin-bottom: 30px;
+  }
+
+  ul {
+    list-style-type: disc;
+    font-size: 1.2em;
+    margin-left: 20px;
+  }
+
+  ol {
+    list-style-type: decimal;
+    margin-left: 40px;
+    font-size: 1em;
+    color: #ff4c4c;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
+
+  li:hover {
+    color: #00ff00;
+    text-shadow: 0 0 8px #00ff00;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h1>Nested Lists Example</h1>
+
+<ul>
+  <li>Fruits
+    <ol>
+      <li>Apple</li>
+      <li>Banana</li>
+      <li>Mango</li>
+    </ol>
+  </li>
+  <li>Vegetables
+    <ol>
+      <li>Carrot</li>
+      <li>Broccoli</li>
+      <li>Spinach</li>
+    </ol>
+  </li>
+  <li>Drinks
+    <ol>
+      <li>Water</li>
+      <li>Juice</li>
+      <li>Tea</li>
+    </ol>
+  </li>
+</ul>
+
+</body>
+</html>

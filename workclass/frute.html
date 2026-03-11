@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nested Fruit List</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 40px;
+  }
+
+  h1 {
+    text-align: center;
+    color: #ff6b6b;
+    text-shadow: 0 0 8px #ff6b6b;
+    margin-bottom: 30px;
+  }
+
+  ul, li {
+    list-style-type: none; /* Remove default bullets */
+    margin: 0;
+    padding: 0;
+  }
+
+  ul {
+    margin-left: 20px; /* Indent nested lists */
+  }
+
+  li {
+    margin: 10px 0;
+    padding-left: 10px;
+    position: relative;
+    font-size: 1.2em;
+  }
+
+  /* Custom bullet using pseudo-element */
+  li::before {
+    content: "🍎";
+    position: absolute;
+    left: -25px;
+  }
+
+  /* Different bullets for nested levels */
+  ul ul li::before {
+    content: "🍌";
+    left: -25px;
+  }
+
+  ul ul ul li::before {
+    content: "🍇";
+    left: -25px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Fruits Nested List</h1>
+
+<ul>
+  <li>Fruits
+    <ul>
+      <li>Citrus
+        <ul>
+          <li>Orange</li>
+          <li>Lemon</li>
+          <li>Grapefruit</li>
+        </ul>
+      </li>
+      <li>Berries
+        <ul>
+          <li>Strawberry</li>
+          <li>Blueberry</li>
+          <li>Raspberry</li>
+        </ul>
+      </li>
+      <li>Tropical
+        <ul>
+          <li>Mango</li>
+          <li>Pineapple</li>
+          <li>Banana</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</body>
+</html>

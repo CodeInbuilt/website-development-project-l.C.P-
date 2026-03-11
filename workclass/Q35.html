@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon HTML Form</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: #0d0d0d;
+    color: #00ffff;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 50px 20px;
+  }
+
+  form {
+    background: rgba(0,255,255,0.05);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0,255,255,0.5);
+    width: 100%;
+    max-width: 600px;
+  }
+
+  h1 {
+    text-align: center;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff, 0 0 20px #00e5ff;
+    margin-bottom: 30px;
+  }
+
+  label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 1em;
+    background: rgba(0,255,255,0.05);
+    color: #fff;
+  }
+
+  input[type="submit"] {
+    background: #00ffff;
+    color: #0d0d0d;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  input[type="submit"]:hover {
+    background: #00ff00;
+    box-shadow: 0 0 10px #00ff00;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    box-shadow: 0 0 10px #00ffff;
+    background: rgba(0,255,255,0.1);
+  }
+
+</style>
+</head>
+<body>
+
+<form>
+  <h1>Neon HTML Form</h1>
+
+  <label for="text">Text:</label>
+  <input type="text" id="text" name="text" placeholder="Enter text">
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" placeholder="Enter password">
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" placeholder="Enter email">
+
+  <label for="number">Number:</label>
+  <input type="number" id="number" name="number" placeholder="Enter number">
+
+  <label for="date">Date:</label>
+  <input type="date" id="date" name="date">
+
+  <label for="color">Choose Color:</label>
+  <input type="color" id="color" name="color">
+
+  <label for="range">Select Range:</label>
+  <input type="range" id="range" name="range" min="0" max="100">
+
+  <label for="file">Upload File:</label>
+  <input type="file" id="file" name="file">
+
+  <label>Gender:</label>
+  <input type="radio" name="gender" value="male"> Male
+  <input type="radio" name="gender" value="female"> Female
+
+  <label>Hobbies:</label>
+  <input type="checkbox" name="hobby1" value="reading"> Reading
+  <input type="checkbox" name="hobby2" value="gaming"> Gaming
+  <input type="checkbox" name="hobby3" value="traveling"> Traveling
+
+  <label for="select">Select Option:</label>
+  <select id="select" name="select">
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+  </select>
+
+  <label for="textarea">Message:</label>
+  <textarea id="textarea" name="textarea" rows="4" placeholder="Enter your message"></textarea>
+
+  <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Special Characters</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff, 0 0 20px #00e5ff, 0 0 40px #00e5ff;
+      margin-bottom: 25px;
+    }
+
+    p {
+      font-size: 2em;
+      color: #ff00ff;
+      text-shadow: 0 0 8px #ff00ff, 0 0 15px #ff33ff, 0 0 25px #ff33ff;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+    }
+
+    span {
+      margin: 0 15px;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    /* Glowing pulse effect */
+    @keyframes pulse {
+      0%, 100% {
+        text-shadow: 0 0 10px #ff33ff, 0 0 20px #ff33ff, 0 0 40px #ff33ff;
+        transform: scale(1);
+      }
+      50% {
+        text-shadow: 0 0 20px #ff66ff, 0 0 40px #ff66ff, 0 0 60px #ff66ff;
+        transform: scale(1.2);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Special Characters</h1>
+  <p>
+    <span>&copy;</span> <!-- © -->
+    <span>&reg;</span>  <!-- ® -->
+    <span>&trade;</span><!-- ™ -->
+    <span>&le;</span>   <!-- ≤ -->
+    <span>&ge;</span>   <!-- ≥ -->
+  </p>
+</body>
+</html>

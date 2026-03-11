@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preformatted Text</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #00ff00;
+        }
+
+        .terminal {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 30px 50px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            overflow-x: auto;
+        }
+
+        pre {
+            margin: 0;
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+
+        /* Glowing effect for pseudo-terminal look */
+        .terminal::before {
+            content: "C:\\User\\Rachit> ";
+            color: #00ff00;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <pre>
+System Information:
+-------------------
+User Name: Rachit Shukla
+OS: Windows 11
+CPU: Intel i7-10750H
+RAM: 16GB
+Programming Languages Installed:
+    - Python 3.12
+    - Java 19
+    - Node.js 20
+    - C++ Compiler (GCC 12)
+Installed IDEs:
+    - VS Code
+    - IntelliJ IDEA
+    - PyCharm
+        </pre>
+    </div>
+</body>
+</html>

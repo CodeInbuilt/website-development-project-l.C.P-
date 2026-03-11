@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poem Page</title>
+    <style>
+        /* Body dark theme */
+        body {
+            margin: 0;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        /* Poem card */
+        .poem-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px 60px;
+            border-radius: 20px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #ffdd57;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        p {
+            font-size: 1.3em;
+            line-height: 1.8;
+            text-align: center;
+            color: #e0e0e0;
+        }
+
+        /* Glow effect for each line */
+        .line {
+            display: block;
+            margin: 5px 0;
+            text-shadow: 0 0 8px rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="poem-card">
+        <h1>My Favorite Poem</h1>
+        <p>
+            <span class="line">Twinkle, twinkle, little star,</span><br>
+            <span class="line">How I wonder what you are!</span><br>
+            <span class="line">Up above the world so high,</span><br>
+            <span class="line">Like a diamond in the sky.</span><br>
+            <span class="line">Twinkle, twinkle, little star,</span><br>
+            <span class="line">How I wonder what you are!</span>
+        </p>
+    </div>
+</body>
+</html>
