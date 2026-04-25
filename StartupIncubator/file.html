@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS.LAUNCH</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #E8000D;
+    --red-dark: #8B0005;
+    --red-glow: #FF1A24;
+    --black: #050505;
+    --black-2: #0D0D0D;
+    --black-3: #141414;
+    --white: #F0EDE8;
+    --grey: #2A2A2A;
+    --grey-light: #555;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--red);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(232,0,13,0.5);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+  }
+  body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 20px; height: 20px; }
+  body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring { width: 60px; height: 60px; border-color: var(--red); }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9000;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 48px;
+    background: linear-gradient(to bottom, rgba(5,5,5,0.95), transparent);
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 4px;
+    color: var(--white);
+    text-decoration: none;
+    position: relative;
+  }
+  .logo span { color: var(--red); }
+  .logo::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 100%; height: 1px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .logo:hover::after { transform: scaleX(1); }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--grey-light);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::before {
+    content: '//';
+    color: var(--red);
+    margin-right: 6px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::before { opacity: 1; }
+
+  /* ── HERO ── */
+  #hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,0,13,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,0,13,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 20s linear infinite;
+  }
+  @keyframes gridMove {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(60px); }
+  }
+
+  .hero-orb {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(232,0,13,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    right: -100px; top: 50%;
+    transform: translateY(-50%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; transform: translateY(-50%) scale(1); }
+    50% { opacity: 1; transform: translateY(-50%) scale(1.1); }
+  }
+
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 12vw, 180px);
+    line-height: 0.9;
+    letter-spacing: -2px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-title .line {
+    display: block;
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  .hero-title .line:nth-child(1) { animation: fadeUp 0.8s 0.4s forwards; }
+  .hero-title .line:nth-child(2) { animation: fadeUp 0.8s 0.6s forwards; color: var(--red); }
+
+  .hero-glitch {
+    position: relative;
+  }
+  .hero-glitch::before, .hero-glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+  }
+  .hero-glitch::before {
+    color: var(--red);
+    animation: glitch1 4s infinite;
+    clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+  }
+  .hero-glitch::after {
+    color: #0ff;
+    animation: glitch2 4s infinite;
+    clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+    opacity: 0.3;
+  }
+  @keyframes glitch1 {
+    0%, 90%, 100% { transform: none; opacity: 0; }
+    92% { transform: translate(-3px, 2px); opacity: 1; }
+    94% { transform: translate(3px, -2px); opacity: 1; }
+    96% { transform: translate(-2px, 1px); opacity: 1; }
+    98% { transform: none; opacity: 0; }
+  }
+  @keyframes glitch2 {
+    0%, 88%, 100% { transform: none; opacity: 0; }
+    90% { transform: translate(3px, -2px); opacity: 0.3; }
+    93% { transform: translate(-3px, 2px); opacity: 0.3; }
+    96% { transform: none; opacity: 0; }
+  }
+
+  .hero-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--grey-light);
+    max-width: 480px;
+    line-height: 1.7;
+    margin-top: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    margin-top: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.1s forwards;
+  }
+
+  .btn-primary {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 16px 36px;
+    background: var(--red);
+    color: var(--white);
+    border: none;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.3s;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--red-glow);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  .btn-primary:hover::before { transform: translateX(0); }
+  .btn-primary span { position: relative; z-index: 1; }
+
+  .btn-outline {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 16px 36px;
+    background: transparent;
+    color: var(--white);
+    border: 1px solid var(--grey);
+    cursor: none;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .btn-outline:hover { border-color: var(--red); color: var(--red); }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SCROLLING TICKER ── */
+  .ticker {
+    background: var(--red);
+    padding: 14px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-inner {
+    display: inline-flex;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 4px;
+    padding: 0 40px;
+    color: var(--black);
+  }
+  .ticker-sep { color: rgba(0,0,0,0.3); }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 120px 48px; }
+
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-tag::before { content: ''; width: 40px; height: 1px; background: var(--red); }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 80px);
+    line-height: 1;
+    letter-spacing: 1px;
+    margin-bottom: 60px;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--black-2);
+    position: relative;
+    overflow: hidden;
+  }
+  #about::before {
+    content: 'NEXUS';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 300px;
+    color: rgba(232,0,13,0.03);
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    letter-spacing: -10px;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-text p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #888;
+    margin-bottom: 24px;
+  }
+  .about-text p strong { color: var(--white); font-weight: 500; }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .stat-box {
+    background: var(--black-3);
+    padding: 32px;
+    border-top: 2px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-box::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 1px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .stat-box:hover { border-color: var(--red); background: rgba(232,0,13,0.04); }
+  .stat-box:hover::after { transform: scaleX(1); }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    color: var(--red);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--grey-light);
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  /* ── FOUNDER ── */
+  #founder {
+    background: var(--black);
+    position: relative;
+  }
+
+  .founder-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .founder-card {
+    position: relative;
+  }
+
+  .founder-img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--black-3);
+    overflow: hidden;
+  }
+  .founder-img-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(232,0,13,0.2), transparent 60%);
+    z-index: 1;
+  }
+
+  .founder-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .founder-initials {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    color: rgba(232,0,13,0.2);
+    line-height: 1;
+  }
+  .founder-scan {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent 0%, rgba(232,0,13,0.05) 50%, transparent 100%);
+    animation: scan 3s ease-in-out infinite;
+  }
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+
+  .founder-border {
+    position: absolute;
+    top: 16px; left: 16px;
+    right: -16px; bottom: -16px;
+    border: 1px solid var(--red);
+    z-index: -1;
+  }
+
+  .founder-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .founder-role {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .founder-bio {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #888;
+    margin-bottom: 16px;
+  }
+  .founder-bio strong { color: var(--white); }
+
+  .founder-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+  }
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 8px 14px;
+    border: 1px solid var(--grey);
+    color: var(--grey-light);
+    text-transform: uppercase;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .tag:hover { border-color: var(--red); color: var(--red); }
+
+  /* ── CULTURE ── */
+  #culture {
+    background: var(--black-2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .culture-intro {
+    max-width: 600px;
+    font-size: 17px;
+    line-height: 1.8;
+    color: #888;
+    margin-bottom: 80px;
+  }
+  .culture-intro strong { color: var(--white); }
+
+  .culture-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .pillar {
+    background: var(--black-3);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .pillar::before {
+    content: attr(data-num);
+    position: absolute;
+    top: -20px; right: 20px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    color: rgba(232,0,13,0.06);
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .pillar:hover { background: rgba(232,0,13,0.05); }
+  .pillar:hover::before { color: rgba(232,0,13,0.12); }
+  .pillar:hover .pillar-icon { background: var(--red); color: var(--black); }
+
+  .pillar-icon {
+    width: 44px; height: 44px;
+    background: var(--grey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 24px;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .pillar-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .pillar-text {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #666;
+  }
+
+  /* ── LEARN & EXPLORE ── */
+  #learn {
+    background: var(--black);
+    position: relative;
+  }
+
+  .learn-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+  }
+
+  .learn-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .learn-card {
+    background: var(--black-3);
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: none;
+  }
+  .learn-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    right: 0; height: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .learn-card:hover { background: var(--black-2); }
+  .learn-card:hover::before { transform: scaleX(1); }
+
+  .learn-card-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .learn-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+  .learn-card-text {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #666;
+    margin-bottom: 28px;
+  }
+  .learn-card-arrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--red);
+    letter-spacing: 2px;
+    transition: letter-spacing 0.3s;
+  }
+  .learn-card:hover .learn-card-arrow { letter-spacing: 4px; }
+
+  .learn-card.featured {
+    grid-column: span 2;
+    background: rgba(232,0,13,0.07);
+    border: 1px solid rgba(232,0,13,0.2);
+  }
+  .learn-card.featured:hover { background: rgba(232,0,13,0.12); }
+  .learn-card.featured .learn-card-title { font-size: 40px; }
+
+  /* ── TERMINAL BLOCK ── */
+  .terminal {
+    background: var(--black-3);
+    border: 1px solid var(--grey);
+    margin: 80px 0 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .terminal-bar {
+    background: var(--grey);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-red { background: var(--red); }
+  .dot-yellow { background: #f5a623; }
+  .dot-green { background: #4CAF50; }
+  .terminal-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #555;
+    margin-left: 8px;
+  }
+  .terminal-body {
+    padding: 32px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    line-height: 2;
+    color: #666;
+  }
+  .terminal-line { display: flex; gap: 12px; align-items: flex-start; }
+  .prompt { color: var(--red); flex-shrink: 0; }
+  .cmd { color: var(--white); }
+  .output { color: #4CAF50; }
+  .output-dim { color: #555; }
+  .cursor-blink {
+    display: inline-block;
+    width: 8px; height: 14px;
+    background: var(--red);
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* ── EVENTS STRIP ── */
+  #events {
+    background: var(--red);
+    padding: 80px 48px;
+  }
+  #events .section-tag { color: var(--black); }
+  #events .section-tag::before { background: var(--black); }
+  #events .section-title { color: var(--black); margin-bottom: 40px; }
+
+  .events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .event-row {
+    background: rgba(0,0,0,0.15);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.2s;
+  }
+  .event-row:hover { background: rgba(0,0,0,0.3); }
+  .event-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: rgba(0,0,0,0.5);
+    width: 120px;
+  }
+  .event-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--black);
+    flex: 1;
+    padding: 0 32px;
+  }
+  .event-type {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(0,0,0,0.5);
+    text-transform: uppercase;
+    width: 100px;
+    text-align: right;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--grey);
+    padding: 60px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 4px;
+  }
+  .footer-logo span { color: var(--red); }
+  .footer-copy {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--grey-light);
+  }
+  .footer-links {
+    display: flex;
+    gap: 32px;
+  }
+  .footer-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--grey-light);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--red); }
+
+  /* ── REVEAL ANIMATION ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--red); }
+
+  /* ── HORIZONTAL DIVIDER ── */
+  .h-line {
+    width: 100%;
+    height: 1px;
+    background: var(--grey);
+    margin: 0;
+  }
+
+  /* ── ACTIVE NAV ── */
+  .nav-links a.active { color: var(--white); }
+  .nav-links a.active::before { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="logo">NEXUS<span>.</span>LAUNCH</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#founder">Founder</a></li>
+    <li><a href="#culture">Culture</a></li>
+    <li><a href="#learn">Learn</a></li>
+    <li><a href="#events">Events</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-tag">// Startup Club Initiative</div>
+  <h1 class="hero-title">
+    <span class="line">NEXUS</span>
+    <span class="line hero-glitch" data-text="LAUNCH">LAUNCH</span>
+  </h1>
+  <p class="hero-sub">Where founders are forged. A space built for radical thinkers, relentless builders, and the next generation of world-changers.</p>
+  <div class="hero-cta">
+    <a href="#learn" class="btn-primary"><span>Explore Now</span></a>
+    <a href="#founder" class="btn-outline">Meet the Founder</a>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <span class="ticker-item">BUILD FAST <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">THINK DIFFERENT <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">LAUNCH BOLD <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">FAIL FORWARD <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">SCALE UP <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">CONNECT DEEP <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">LEARN HARD <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">BUILD FAST <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">THINK DIFFERENT <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">LAUNCH BOLD <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">FAIL FORWARD <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">SCALE UP <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">CONNECT DEEP <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">LEARN HARD <span class="ticker-sep">✦</span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-tag">01 — About</div>
+  <div class="section-title reveal">Who We Are</div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p><strong>NEXUS.LAUNCH</strong> is the heartbeat of our campus startup ecosystem — a collective of ambitious minds who believe that building the future shouldn't wait until after graduation.</p>
+      <p>We're a <strong>student-run startup club</strong> that bridges the gap between classroom theory and real-world execution. From first-time founders to seasoned side-hustle veterans, our community is your launchpad.</p>
+      <p>We operate on one core belief: the best time to start is <strong>right now</strong>. Our programs, mentors, and network exist to remove every excuse standing between you and your first venture.</p>
+    </div>
+    <div class="about-stats reveal">
+      <div class="stat-box">
+        <div class="stat-num" data-target="340">0</div>
+        <div class="stat-label">Active Members</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" data-target="47">0</div>
+        <div class="stat-label">Startups Launched</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" data-target="2.4">0</div>
+        <div class="stat-label">M Funding Raised</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num" data-target="89">0</div>
+        <div class="stat-label">Events This Year</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="h-line"></div>
+
+<!-- FOUNDER -->
+<section id="founder">
+  <div class="section-tag">02 — Founder</div>
+  <div class="section-title reveal">The Vision Behind<br>the Movement</div>
+  <div class="founder-grid">
+    <div class="founder-card reveal">
+      <div class="founder-img-wrap">
+        <div class="founder-placeholder">
+          <div class="founder-initials">NL</div>
+          <div class="founder-scan"></div>
+        </div>
+      </div>
+      <div class="founder-border"></div>
+    </div>
+    <div class="reveal">
+      <div class="founder-name">Rachit<br>Shukla</div>
+      <div class="founder-role">// Founder & President</div>
+      <p class="founder-bio">
+        Alex started <strong>NEXUS.LAUNCH</strong> from a dorm room with nothing but a whiteboard and a obsessive conviction that campus was sleeping on its own talent. Three years later, that conviction has become a movement.
+      </p>
+      <p class="founder-bio">
+        Before founding NEXUS, Rachit built and sold two micro-SaaS products before age 20, interned at a Series B startup in Berlin, and turned down a cushy corporate offer to bet everything on the community. <strong>No regrets.</strong>
+      </p>
+      <p class="founder-bio">
+        The mission is simple: create the environment Alex wished had existed — one where every student with a spark finds the fuel, framework, and fellow founders to ignite it.
+      </p>
+      <div class="founder-tags">
+        <span class="tag">Founder</span>
+        <span class="tag">Builder</span>
+        <span class="tag">Mentor</span>
+        <span class="tag">Ex-Operator</span>
+        <span class="tag">SaaS</span>
+        <span class="tag">Community</span>
+        <span class="tag">Product</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="h-line"></div>
+
+<!-- CULTURE -->
+<section id="culture">
+  <div class="section-tag">03 — Culture</div>
+  <div class="section-title reveal">How We<br>Operate</div>
+  <p class="culture-intro reveal">
+    We don't do <strong>passive membership</strong>. NEXUS culture is built on radical participation, honest feedback, and a collective refusal to stay comfortable. If you're in — you're all in.
+  </p>
+  <div class="culture-pillars">
+    <div class="pillar reveal" data-num="01">
+      <div class="pillar-icon">⚡</div>
+      <div class="pillar-title">Bias Toward Action</div>
+      <p class="pillar-text">Ideas are cheap. Shipping is sacred. We celebrate done over perfect, iteration over paralysis, and try over wait. If it can be built in a weekend — build it this weekend.</p>
+    </div>
+    <div class="pillar reveal" data-num="02">
+      <div class="pillar-icon">🔥</div>
+      <div class="pillar-title">Radical Honesty</div>
+      <p class="pillar-text">Feedback here isn't padded with pleasantries. We give it straight because we respect each other's time and ambitions. Growth lives in discomfort.</p>
+    </div>
+    <div class="pillar reveal" data-num="03">
+      <div class="pillar-icon">🌐</div>
+      <div class="pillar-title">Community First</div>
+      <p class="pillar-text">Your win is our win. We co-promote, co-invest, and co-build. Competition is for industries — inside NEXUS, we only know collaboration.</p>
+    </div>
+    <div class="pillar reveal" data-num="04">
+      <div class="pillar-icon">🎯</div>
+      <div class="pillar-title">Mission-Led</div>
+      <p class="pillar-text">We build things that matter. Not just for exits, but for impact. Every startup in NEXUS must answer: what problem are you solving, and for whom?</p>
+    </div>
+    <div class="pillar reveal" data-num="05">
+      <div class="pillar-icon">💀</div>
+      <div class="pillar-title">Fail Loudly</div>
+      <p class="pillar-text">We celebrate public failure. Monthly "Ship It or Skip It" nights exist specifically so founders can post-mortem their failures — out loud, in front of everyone.</p>
+    </div>
+    <div class="pillar reveal" data-num="06">
+      <div class="pillar-icon">🧠</div>
+      <div class="pillar-title">Always Learning</div>
+      <p class="pillar-text">Curiosity is non-negotiable. Every member commits to one new skill per semester. We are perpetual students of business, design, tech, and people.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LEARN & EXPLORE -->
+<section id="learn">
+  <div class="learn-header">
+    <div>
+      <div class="section-tag">04 — Learn & Explore</div>
+      <div class="section-title reveal" style="margin-bottom:0">The Knowledge<br>Engine</div>
+    </div>
+    <a href="#" class="btn-outline reveal">View All Resources</a>
+  </div>
+
+  <div class="learn-grid">
+    <div class="learn-card featured reveal">
+      <div class="learn-card-tag">// Flagship Program</div>
+      <div class="learn-card-title">Founder Bootcamp</div>
+      <p class="learn-card-text">Eight weeks. Zero theory. Pure execution. Work alongside active founders, get your MVP to market, and pitch to real investors on Demo Day. Applications open every semester.</p>
+      <div class="learn-card-arrow">Apply Now →</div>
+    </div>
+    <div class="learn-card reveal">
+      <div class="learn-card-tag">// Weekly</div>
+      <div class="learn-card-title">Founder Fridays</div>
+      <p class="learn-card-text">Lightning talks from founders, VCs, and operators. Raw stories. Hard lessons. Every Friday, 6PM.</p>
+      <div class="learn-card-arrow">RSVP →</div>
+    </div>
+    <div class="learn-card reveal">
+      <div class="learn-card-tag">// Self-Paced</div>
+      <div class="learn-card-title">Build Library</div>
+      <p class="learn-card-text">Curated deep dives: fundraising, GTM, hiring, pricing, cold outreach. Distilled. Actionable.</p>
+      <div class="learn-card-arrow">Explore →</div>
+    </div>
+    <div class="learn-card reveal">
+      <div class="learn-card-tag">// Mentorship</div>
+      <div class="learn-card-title">1-on-1 Office Hours</div>
+      <p class="learn-card-text">Book time with ex-founders and operators who've been exactly where you are.</p>
+      <div class="learn-card-arrow">Book Slot →</div>
+    </div>
+    <div class="learn-card reveal">
+      <div class="learn-card-tag">// Monthly</div>
+      <div class="learn-card-title">Hack Nights</div>
+      <p class="learn-card-text">48 hours. A problem. Your team. Build something real and defend it on Sunday night.</p>
+      <div class="learn-card-arrow">Join Next →</div>
+    </div>
+    <div class="learn-card reveal">
+      <div class="learn-card-tag">// Community</div>
+      <div class="learn-card-title">Skill Swaps</div>
+      <p class="learn-card-text">Teach what you know. Learn what you don't. Developers meet designers meet marketers.</p>
+      <div class="learn-card-arrow">Sign Up →</div>
+    </div>
+  </div>
+
+  <!-- TERMINAL -->
+  <div class="terminal reveal">
+    <div class="terminal-bar">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-yellow"></div>
+      <div class="dot dot-green"></div>
+      <span class="terminal-title">nexus_launch — bash</span>
+    </div>
+    <div class="terminal-body">
+      <div class="terminal-line">
+        <span class="prompt">$</span>
+        <span class="cmd">nexus join --member</span>
+      </div>
+      <div class="terminal-line">
+        <span class="prompt"></span>
+        <span class="output">✓ Welcome to NEXUS.LAUNCH. Your startup journey starts now.</span>
+      </div>
+      <div class="terminal-line" style="margin-top:8px">
+        <span class="prompt">$</span>
+        <span class="cmd">nexus status</span>
+      </div>
+      <div class="terminal-line">
+        <span class="prompt"></span>
+        <span class="output-dim">Active Members: 340 | Startups: 47 | Next Event: Founder Friday in 3 days</span>
+      </div>
+      <div class="terminal-line" style="margin-top:8px">
+        <span class="prompt">$</span>
+        <span class="cmd">nexus learn --track=founder-bootcamp</span>
+      </div>
+      <div class="terminal-line">
+        <span class="prompt"></span>
+        <span class="output">✓ Loading curriculum... Applications open. Deadline: May 15.</span>
+      </div>
+      <div class="terminal-line" style="margin-top:8px">
+        <span class="prompt">$</span>
+        <span class="cursor-blink"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section id="events">
+  <div class="section-tag">05 — Upcoming</div>
+  <div class="section-title">What's On</div>
+  <div class="events-list">
+    <div class="event-row">
+      <div class="event-date">APR 28</div>
+      <div class="event-name">Founder Friday: From Zero to Seed</div>
+      <div class="event-type">Talk</div>
+    </div>
+    <div class="event-row">
+      <div class="event-date">MAY 03</div>
+      <div class="event-name">48-Hour Hack Night: HealthTech Edition</div>
+      <div class="event-type">Hackathon</div>
+    </div>
+    <div class="event-row">
+      <div class="event-date">MAY 10</div>
+      <div class="event-name">VC Panel: What Investors Actually Look For</div>
+      <div class="event-type">Panel</div>
+    </div>
+    <div class="event-row">
+      <div class="event-date">MAY 15</div>
+      <div class="event-name">Bootcamp Applications Close</div>
+      <div class="event-type">Deadline</div>
+    </div>
+    <div class="event-row">
+      <div class="event-date">MAY 22</div>
+      <div class="event-name">Skill Swap: Designers × Developers</div>
+      <div class="event-type">Workshop</div>
+    </div>
+    <div class="event-row">
+      <div class="event-date">JUN 01</div>
+      <div class="event-name">NEXUS Demo Day — Cohort 4</div>
+      <div class="event-type">Demo Day</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">NEXUS<span>.</span>LAUNCH</div>
+  <div class="footer-copy">© 2026 NEXUS.LAUNCH // All Rights Reserved</div>
+  <div class="footer-links">
+    <a href="#">Instagram</a>
+    <a href="#">LinkedIn</a>
+    <a href="#">Discord</a>
+    <a href="#">Apply</a>
+  </div>
+</footer>
+
+<script>
+  // ── CURSOR ──
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // ── REVEAL ON SCROLL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── COUNTER ANIMATION ──
+  function animateCounter(el, target, suffix) {
+    const isDecimal = target % 1 !== 0;
+    const duration = 2000;
+    const start = performance.now();
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const value = ease * target;
+      el.textContent = isDecimal ? value.toFixed(1) + suffix : Math.round(value) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const statObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target.querySelector('.stat-num');
+        const target = parseFloat(el.dataset.target);
+        const suffix = el.dataset.target.includes('.') ? 'M' : '+';
+        animateCounter(el, target, suffix);
+        statObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.stat-box').forEach(b => statObserver.observe(b));
+
+  // ── ACTIVE NAV ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  // ── NAV BACKGROUND ──
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.background = window.scrollY > 80
+      ? 'rgba(5,5,5,0.97)'
+      : 'linear-gradient(to bottom, rgba(5,5,5,0.95), transparent)';
+  });
+
+  // ── TERMINAL TYPEWRITER ──
+  // (already rendered statically for visual polish)
+</script>
+</body>
+</html>

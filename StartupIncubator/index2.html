@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXUS.LAUNCH — Where Founders Break Through</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-trail" id="cursorTrail"></div>
+
+  <!-- SCAN LINE -->
+  <div class="scanline"></div>
+
+  <!-- GRID BACKGROUND -->
+  <div class="grid-bg"></div>
+
+  <!-- PARTICLES -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- ── NAV ── -->
+  <nav class="nav" id="nav">
+    <div class="nav-brand">
+      <span class="nav-dot"></span>
+      NEXUS<span class="nav-accent">.</span>LAUNCH
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#mentors">Mentors</a></li>
+      <li><a href="#program">Program</a></li>
+      <li><a href="#startups">Startups</a></li>
+    </ul>
+    <a href="#apply" class="nav-cta">Apply Now →</a>
+    <button class="nav-burger" id="navBurger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#about" class="mm-link">About</a></li>
+      <li><a href="#mentors" class="mm-link">Mentors</a></li>
+      <li><a href="#program" class="mm-link">Program</a></li>
+      <li><a href="#startups" class="mm-link">Startups</a></li>
+      <li><a href="#apply" class="mm-link mm-cta">Apply Now →</a></li>
+    </ul>
+  </div>
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="hero">
+    <div class="hero-eyebrow reveal">
+      <span class="eyebrow-line"></span>
+      COHORT 2026 — APPLICATIONS OPEN
+      <span class="eyebrow-line"></span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="line reveal" data-delay="0">WHERE</span>
+      <span class="line reveal accent" data-delay="100">FOUNDERS</span>
+      <span class="line reveal" data-delay="200">BREAK</span>
+      <span class="line reveal accent-outline" data-delay="300">THROUGH</span>
+    </h1>
+
+    <p class="hero-sub reveal" data-delay="400">
+      NEXUS.LAUNCH connects early-stage startups with battle-tested mentors.<br />
+      No fluff. No gatekeeping. Just the people and insight that move the needle.
+    </p>
+
+    <div class="hero-actions reveal" data-delay="500">
+      <a href="#apply" class="btn-primary">Apply to Cohort <span>→</span></a>
+      <a href="#mentors" class="btn-ghost">Meet the Mentors</a>
+    </div>
+
+    <div class="hero-stats reveal" data-delay="600">
+      <div class="hstat">
+        <span class="hstat-num" data-target="87">0</span>
+        <span class="hstat-label">Startups Launched</span>
+      </div>
+      <div class="hstat-divider"></div>
+      <div class="hstat">
+        <span class="hstat-num" data-target="24">0</span>
+        <span class="hstat-label">Expert Mentors</span>
+      </div>
+      <div class="hstat-divider"></div>
+      <div class="hstat">
+        <span class="hstat-num" data-prefix="$" data-suffix="B" data-target="2.4" data-decimal="1">0</span>
+        <span class="hstat-label">Capital Raised</span>
+      </div>
+      <div class="hstat-divider"></div>
+      <div class="hstat">
+        <span class="hstat-num" data-target="92" data-suffix="%">0</span>
+        <span class="hstat-label">Still Operating</span>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>SCROLL</span>
+    </div>
+  </section>
+
+  <!-- ── TICKER ── -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span>NEXUS.LAUNCH</span><span class="t-dot">✦</span>
+      <span>COHORT 2026</span><span class="t-dot">✦</span>
+      <span>87 STARTUPS</span><span class="t-dot">✦</span>
+      <span>$2.4B RAISED</span><span class="t-dot">✦</span>
+      <span>APPLICATIONS OPEN</span><span class="t-dot">✦</span>
+      <span>24 MENTORS</span><span class="t-dot">✦</span>
+      <span>NEXUS.LAUNCH</span><span class="t-dot">✦</span>
+      <span>COHORT 2026</span><span class="t-dot">✦</span>
+      <span>87 STARTUPS</span><span class="t-dot">✦</span>
+      <span>$2.4B RAISED</span><span class="t-dot">✦</span>
+      <span>APPLICATIONS OPEN</span><span class="t-dot">✦</span>
+      <span>24 MENTORS</span><span class="t-dot">✦</span>
+    </div>
+  </div>
+
+  <!-- ── ABOUT ── -->
+  <section class="section about" id="about">
+    <div class="sec-header reveal">
+      <div class="sec-label">// 01 — About</div>
+      <h2 class="sec-title">Built for the<br /><em>real ones.</em></h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>NEXUS.LAUNCH is a founder-first accelerator that believes the best mentors aren't on stage — they're in the trenches. We match early-stage startups with operators who've been exactly where you are.</p>
+        <p>Our cohort model is selective, intensive, and ruthlessly focused on outcomes. We don't celebrate pitches. We celebrate traction.</p>
+        <a href="#program" class="inline-link">See the program structure →</a>
+      </div>
+      <div class="about-pillars reveal" data-delay="100">
+        <div class="pillar">
+          <div class="pillar-num">01</div>
+          <div class="pillar-name">Mentorship First</div>
+          <div class="pillar-desc">Weekly 1:1s with domain-specific operators, not generalists.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">02</div>
+          <div class="pillar-name">Capital Access</div>
+          <div class="pillar-desc">Direct intros to pre-vetted angels and institutional VCs.</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">03</div>
+          <div class="pillar-name">Network Effect</div>
+          <div class="pillar-desc">Lifetime access to the NEXUS alumni operating system.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MENTORS PREVIEW ── -->
+  <section class="section mentors-preview" id="mentors">
+    <div class="sec-header reveal">
+      <div class="sec-label">// 02 — Mentors</div>
+      <h2 class="sec-title">The people<br /><em>behind the wall.</em></h2>
+    </div>
+
+    <div class="mentor-strip" id="mentorStrip">
+      <div class="mentor-item reveal">
+        <div class="mi-avatar">AK</div>
+        <div class="mi-info">
+          <div class="mi-name">Arjun Kapoor</div>
+          <div class="mi-role">Growth · Ex-Meesho</div>
+        </div>
+        <div class="mi-tag">GTM</div>
+      </div>
+      <div class="mentor-item reveal" data-delay="60">
+        <div class="mi-avatar">SR</div>
+        <div class="mi-info">
+          <div class="mi-name">Shreya Rao</div>
+          <div class="mi-role">Product · Ex-Razorpay</div>
+        </div>
+        <div class="mi-tag">Fintech</div>
+      </div>
+      <div class="mentor-item reveal" data-delay="120">
+        <div class="mi-avatar">VN</div>
+        <div class="mi-info">
+          <div class="mi-name">Vikram Nair</div>
+          <div class="mi-role">Venture · 3 Exits</div>
+        </div>
+        <div class="mi-tag">M&A</div>
+      </div>
+      <div class="mentor-item reveal" data-delay="180">
+        <div class="mi-avatar">PS</div>
+        <div class="mi-info">
+          <div class="mi-name">Priya Sharma</div>
+          <div class="mi-role">AI/ML · Ex-IIT</div>
+        </div>
+        <div class="mi-tag">Deep Tech</div>
+      </div>
+      <div class="mentor-item reveal" data-delay="240">
+        <div class="mi-avatar">RC</div>
+        <div class="mi-info">
+          <div class="mi-name">Rahul Chandra</div>
+          <div class="mi-role">Angel · iSeed</div>
+        </div>
+        <div class="mi-tag">Seed</div>
+      </div>
+      <div class="mentor-item reveal" data-delay="300">
+        <div class="mi-avatar">MD</div>
+        <div class="mi-info">
+          <div class="mi-name">Meghna Das</div>
+          <div class="mi-role">Brand · Ex-Nykaa</div>
+        </div>
+        <div class="mi-tag">Consumer</div>
+      </div>
+    </div>
+
+    <div class="mentors-cta reveal">
+      <a href="mentors.html" class="btn-ghost">View All 24 Mentors →</a>
+    </div>
+  </section>
+
+  <!-- ── PROGRAM ── -->
+  <section class="section program" id="program">
+    <div class="sec-header reveal">
+      <div class="sec-label">// 03 — Program</div>
+      <h2 class="sec-title">12 weeks.<br /><em>No shortcuts.</em></h2>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-marker">
+          <div class="tl-num">W1–2</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <h3>Diagnostics & Alignment</h3>
+          <p>Deep-dive sessions to map your business model, identify friction, and match you with your core mentor team.</p>
+        </div>
+      </div>
+      <div class="tl-item reveal" data-delay="80">
+        <div class="tl-marker">
+          <div class="tl-num">W3–6</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <h3>Traction Sprints</h3>
+          <p>Weekly sprints with your mentor focused on one metric that matters. Ship fast, learn faster, kill what doesn't work.</p>
+        </div>
+      </div>
+      <div class="tl-item reveal" data-delay="160">
+        <div class="tl-marker">
+          <div class="tl-num">W7–9</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <h3>Capital Preparation</h3>
+          <p>Narrative structuring, data room setup, and warm intros to investors who write checks at your stage.</p>
+        </div>
+      </div>
+      <div class="tl-item reveal" data-delay="240">
+        <div class="tl-marker">
+          <div class="tl-num">W10–12</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <h3>Launch & Demo</h3>
+          <p>Public demo day, press blitz, and formal onboarding into the NEXUS alumni network and operator community.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STARTUPS ── -->
+  <section class="section startups" id="startups">
+    <div class="sec-header reveal">
+      <div class="sec-label">// 04 — Portfolio</div>
+      <h2 class="sec-title">Startups that<br /><em>made it out.</em></h2>
+    </div>
+    <div class="startup-grid">
+      <div class="startup-card reveal">
+        <div class="sc-logo">⚡</div>
+        <div class="sc-name">VOLTIQ</div>
+        <div class="sc-sector">Climate Tech</div>
+        <div class="sc-raise">Raised ₹12Cr Seed</div>
+      </div>
+      <div class="startup-card reveal" data-delay="60">
+        <div class="sc-logo">🧬</div>
+        <div class="sc-name">GENPATH</div>
+        <div class="sc-sector">HealthTech · AI</div>
+        <div class="sc-raise">Series A — $4M</div>
+      </div>
+      <div class="startup-card reveal" data-delay="120">
+        <div class="sc-logo">🔗</div>
+        <div class="sc-name">CHAINFLOW</div>
+        <div class="sc-sector">Web3 Infrastructure</div>
+        <div class="sc-raise">Raised $2.8M</div>
+      </div>
+      <div class="startup-card reveal" data-delay="180">
+        <div class="sc-logo">📦</div>
+        <div class="sc-name">STACKR</div>
+        <div class="sc-sector">B2B SaaS</div>
+        <div class="sc-raise">$1.2M ARR</div>
+      </div>
+      <div class="startup-card reveal" data-delay="240">
+        <div class="sc-logo">🌿</div>
+        <div class="sc-name">TERRAQ</div>
+        <div class="sc-sector">AgriTech</div>
+        <div class="sc-raise">150K Farmers</div>
+      </div>
+      <div class="startup-card reveal" data-delay="300">
+        <div class="sc-logo">🛰</div>
+        <div class="sc-name">ORBITEK</div>
+        <div class="sc-sector">Deep Tech · Space</div>
+        <div class="sc-raise">ISRO Partnership</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── APPLY ── -->
+  <section class="section apply-section" id="apply">
+    <div class="apply-inner reveal">
+      <div class="apply-label">// 05 — Applications</div>
+      <h2 class="apply-title">READY TO<br /><span>LAUNCH?</span></h2>
+      <p class="apply-sub">Cohort 2026 closes June 30. We accept 12 startups per cohort. No decks required — just your story and your numbers.</p>
+      <div class="apply-form">
+        <input type="email" placeholder="your@startup.com" id="emailInput" />
+        <button class="btn-primary" id="applyBtn">Get Early Access <span>→</span></button>
+      </div>
+      <p class="apply-note" id="applyNote"></p>
+      <div class="apply-meta">
+        <span>✓ Free to apply</span>
+        <span>✓ No pitch deck needed</span>
+        <span>✓ Decision in 14 days</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        NEXUS<span class="nav-accent">.</span>LAUNCH
+      </div>
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#mentors">Mentors</a>
+        <a href="#program">Program</a>
+        <a href="#startups">Portfolio</a>
+        <a href="#apply">Apply</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 NEXUS.LAUNCH — All rights reserved.</span>
+      <span>Built for founders who don't wait.</span>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

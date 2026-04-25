@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexusLaunch — Virtual Startup Incubator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --neon-cyan: #00f5ff;
+    --neon-purple: #bf00ff;
+    --neon-pink: #ff006e;
+    --neon-green: #39ff14;
+    --neon-gold: #ffd700;
+    --bg-dark: #03040a;
+    --bg-mid: #080d1a;
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(0,245,255,0.15);
+    --text: #e0f0ff;
+    --text-dim: rgba(224,240,255,0.55);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg-dark);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Animated Background */
+  .bg-canvas {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(191,0,255,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 90%, rgba(0,245,255,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(255,0,110,0.06) 0%, transparent 60%),
+      #03040a;
+  }
+  .bg-canvas::before {
+    content:'';
+    position:absolute; inset:0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 40px,
+      rgba(0,245,255,0.015) 40px,
+      rgba(0,245,255,0.015) 41px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 40px,
+      rgba(0,245,255,0.015) 40px,
+      rgba(0,245,255,0.015) 41px
+    );
+    animation: gridDrift 20s linear infinite;
+  }
+  @keyframes gridDrift { 0%{transform:translate(0,0)} 100%{transform:translate(40px,40px)} }
+
+  .orb {
+    position:fixed; border-radius:50%; pointer-events:none; z-index:0;
+    filter: blur(80px);
+    animation: orbFloat 8s ease-in-out infinite alternate;
+  }
+  .orb1 { width:400px;height:400px; background:rgba(191,0,255,0.12); top:-100px; left:-100px; }
+  .orb2 { width:300px;height:300px; background:rgba(0,245,255,0.10); bottom:-50px; right:-50px; animation-delay:-3s; }
+  .orb3 { width:200px;height:200px; background:rgba(255,0,110,0.08); top:50%; left:70%; animation-delay:-5s; }
+  @keyframes orbFloat { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(30px,30px) scale(1.1)} }
+
+  /* Layout */
+  .app { position:relative; z-index:1; max-width:1400px; margin:0 auto; padding:0 24px; }
+
+  /* NAV */
+  nav {
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(0,245,255,0.1);
+  }
+  .logo {
+    font-family:'Orbitron',monospace; font-weight:900; font-size:1.4rem;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    letter-spacing:3px;
+    filter: drop-shadow(0 0 12px rgba(0,245,255,0.4));
+  }
+  .logo span { color: var(--neon-pink); -webkit-text-fill-color: var(--neon-pink); }
+  .nav-links { display:flex; gap:32px; }
+  .nav-links a {
+    font-family:'Rajdhani'; font-weight:600; font-size:0.9rem;
+    color: var(--text-dim); text-decoration:none; letter-spacing:2px; text-transform:uppercase;
+    transition: color .3s, text-shadow .3s;
+    position:relative;
+  }
+  .nav-links a::after {
+    content:''; position:absolute; bottom:-4px; left:0; right:0; height:1px;
+    background: var(--neon-cyan); transform:scaleX(0); transition:transform .3s;
+    box-shadow: 0 0 8px var(--neon-cyan);
+  }
+  .nav-links a:hover { color:var(--neon-cyan); text-shadow:0 0 12px var(--neon-cyan); }
+  .nav-links a:hover::after { transform:scaleX(1); }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+    border:none; padding:10px 24px; border-radius:4px;
+    font-family:'Orbitron'; font-size:0.75rem; font-weight:700; letter-spacing:2px;
+    color:#fff; cursor:pointer; position:relative; overflow:hidden;
+    transition: box-shadow .3s, transform .2s;
+  }
+  .nav-cta:hover {
+    box-shadow: 0 0 20px rgba(0,245,255,0.5), 0 0 40px rgba(191,0,255,0.3);
+    transform: translateY(-1px);
+  }
+
+  /* HERO */
+  .hero { text-align:center; padding: 100px 0 60px; }
+  .hero-badge {
+    display:inline-block; padding:6px 20px; border-radius:20px;
+    background: rgba(0,245,255,0.08); border:1px solid rgba(0,245,255,0.25);
+    font-family:'Share Tech Mono'; font-size:0.75rem; letter-spacing:3px; color:var(--neon-cyan);
+    margin-bottom:28px;
+    animation: pulseBadge 3s ease-in-out infinite;
+  }
+  @keyframes pulseBadge {
+    0%,100%{box-shadow:0 0 8px rgba(0,245,255,0.2)} 
+    50%{box-shadow:0 0 20px rgba(0,245,255,0.5)}
+  }
+  .hero h1 {
+    font-family:'Orbitron'; font-size:clamp(2.5rem,6vw,5rem); font-weight:900;
+    line-height:1.1; letter-spacing:-1px;
+    background: linear-gradient(135deg, #fff 0%, var(--neon-cyan) 40%, var(--neon-purple) 80%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    filter: drop-shadow(0 0 30px rgba(0,245,255,0.2));
+    margin-bottom:20px;
+  }
+  .hero-sub {
+    font-size:1.15rem; color:var(--text-dim); max-width:600px; margin:0 auto 40px;
+    line-height:1.7; font-weight:300;
+  }
+  .hero-actions { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+  .btn-primary {
+    padding:14px 36px; background:linear-gradient(135deg,var(--neon-purple),var(--neon-cyan));
+    border:none; border-radius:4px; font-family:'Orbitron'; font-size:0.8rem; font-weight:700;
+    letter-spacing:2px; color:#fff; cursor:pointer;
+    transition: all .3s; position:relative; overflow:hidden;
+  }
+  .btn-primary::before {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(135deg,var(--neon-cyan),var(--neon-purple));
+    opacity:0; transition:opacity .3s;
+  }
+  .btn-primary:hover {
+    box-shadow:0 0 30px rgba(191,0,255,0.5), 0 0 60px rgba(0,245,255,0.2);
+    transform:translateY(-2px);
+  }
+  .btn-primary:hover::before { opacity:1; }
+  .btn-primary span { position:relative; z-index:1; }
+  .btn-secondary {
+    padding:14px 36px; background:transparent;
+    border:1px solid rgba(0,245,255,0.4); border-radius:4px;
+    font-family:'Orbitron'; font-size:0.8rem; font-weight:700; letter-spacing:2px;
+    color:var(--neon-cyan); cursor:pointer;
+    transition: all .3s;
+  }
+  .btn-secondary:hover {
+    background:rgba(0,245,255,0.08);
+    box-shadow:0 0 20px rgba(0,245,255,0.3), inset 0 0 20px rgba(0,245,255,0.05);
+    border-color:var(--neon-cyan);
+  }
+
+  /* LIVE STATS BAR */
+  .stats-bar {
+    display:flex; gap:0; margin:40px 0;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(0,245,255,0.1);
+    border-radius:8px; overflow:hidden;
+    backdrop-filter:blur(20px);
+  }
+  .stat-item {
+    flex:1; padding:20px 24px; text-align:center;
+    border-right:1px solid rgba(0,245,255,0.08);
+    transition:background .3s;
+  }
+  .stat-item:last-child { border-right:none; }
+  .stat-item:hover { background:rgba(0,245,255,0.05); }
+  .stat-num {
+    font-family:'Orbitron'; font-size:1.8rem; font-weight:900;
+    color:var(--neon-cyan);
+    filter:drop-shadow(0 0 8px var(--neon-cyan));
+  }
+  .stat-num.purple { color:var(--neon-purple); filter:drop-shadow(0 0 8px var(--neon-purple)); }
+  .stat-num.pink { color:var(--neon-pink); filter:drop-shadow(0 0 8px var(--neon-pink)); }
+  .stat-num.green { color:var(--neon-green); filter:drop-shadow(0 0 8px var(--neon-green)); }
+  .stat-label { font-size:0.75rem; letter-spacing:2px; color:var(--text-dim); text-transform:uppercase; margin-top:4px; }
+  .live-dot {
+    display:inline-block; width:6px;height:6px; border-radius:50%;
+    background:var(--neon-green); margin-right:6px;
+    animation:blink .8s ease-in-out infinite alternate;
+    box-shadow:0 0 8px var(--neon-green);
+  }
+  @keyframes blink { 0%{opacity:1} 100%{opacity:0.2} }
+
+  /* SECTION HEADER */
+  .section-header { text-align:center; margin-bottom:48px; }
+  .section-badge {
+    display:inline-block; padding:4px 16px; margin-bottom:16px;
+    border-radius:2px; background:rgba(191,0,255,0.1); border:1px solid rgba(191,0,255,0.3);
+    font-family:'Share Tech Mono'; font-size:0.7rem; letter-spacing:3px; color:var(--neon-purple);
+    text-transform:uppercase;
+  }
+  .section-title {
+    font-family:'Orbitron'; font-size:clamp(1.5rem,3vw,2.5rem); font-weight:700;
+    letter-spacing:1px;
+  }
+
+  /* GLASS CARD */
+  .glass-card {
+    background: rgba(255,255,255,0.04);
+    border:1px solid rgba(0,245,255,0.12);
+    border-radius:12px;
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    transition: all .4s ease;
+    position:relative; overflow:hidden;
+  }
+  .glass-card::before {
+    content:''; position:absolute; inset:0; border-radius:12px;
+    background:linear-gradient(135deg,rgba(0,245,255,0.05) 0%,transparent 60%);
+    opacity:0; transition:opacity .4s;
+  }
+  .glass-card:hover {
+    border-color:rgba(0,245,255,0.35);
+    box-shadow:0 0 30px rgba(0,245,255,0.1), 0 0 60px rgba(191,0,255,0.05), inset 0 1px 0 rgba(255,255,255,0.08);
+    transform:translateY(-4px);
+  }
+  .glass-card:hover::before { opacity:1; }
+
+  /* STARTUPS SECTION */
+  .section { padding:60px 0; }
+  .startups-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:24px; }
+  .startup-card { padding:28px; }
+  .startup-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:16px; }
+  .startup-logo {
+    width:52px;height:52px; border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.5rem;
+    border:1px solid rgba(255,255,255,0.1);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .startup-stage {
+    padding:4px 12px; border-radius:20px;
+    font-family:'Share Tech Mono'; font-size:0.65rem; letter-spacing:2px; text-transform:uppercase;
+  }
+  .stage-seed { background:rgba(57,255,20,0.1); border:1px solid rgba(57,255,20,0.3); color:var(--neon-green); }
+  .stage-series-a { background:rgba(0,245,255,0.1); border:1px solid rgba(0,245,255,0.3); color:var(--neon-cyan); }
+  .stage-growth { background:rgba(191,0,255,0.1); border:1px solid rgba(191,0,255,0.3); color:var(--neon-purple); }
+  .startup-name { font-family:'Orbitron'; font-size:1.1rem; font-weight:700; margin-bottom:6px; }
+  .startup-sector { font-size:0.8rem; color:var(--neon-cyan); letter-spacing:1px; margin-bottom:12px; }
+  .startup-desc { font-size:0.9rem; color:var(--text-dim); line-height:1.6; margin-bottom:20px; }
+  .startup-metrics { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:20px; }
+  .metric { text-align:center; padding:10px; background:rgba(255,255,255,0.03); border-radius:6px; border:1px solid rgba(255,255,255,0.06); }
+  .metric-val { font-family:'Orbitron'; font-size:1rem; font-weight:700; color:var(--neon-gold); }
+  .metric-key { font-size:0.65rem; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
+  .progress-wrap { margin-bottom:16px; }
+  .progress-label { display:flex;justify-content:space-between; font-size:0.75rem; color:var(--text-dim); margin-bottom:6px; }
+  .progress-bar { height:4px; background:rgba(255,255,255,0.06); border-radius:2px; overflow:hidden; }
+  .progress-fill {
+    height:100%; border-radius:2px;
+    background:linear-gradient(90deg,var(--neon-purple),var(--neon-cyan));
+    box-shadow:0 0 8px var(--neon-cyan);
+    transition:width 1s ease;
+  }
+  .startup-footer { display:flex;gap:10px; }
+  .btn-invest {
+    flex:1; padding:10px; background:linear-gradient(135deg,var(--neon-purple),var(--neon-pink));
+    border:none; border-radius:6px; font-family:'Orbitron'; font-size:0.7rem; font-weight:700;
+    letter-spacing:1px; color:#fff; cursor:pointer; transition:all .3s;
+  }
+  .btn-invest:hover { box-shadow:0 0 20px rgba(191,0,255,0.5); transform:scale(1.02); }
+  .btn-watch {
+    padding:10px 18px; background:transparent; border:1px solid rgba(255,255,255,0.15);
+    border-radius:6px; font-family:'Share Tech Mono'; font-size:0.75rem; color:var(--text-dim);
+    cursor:pointer; transition:all .3s;
+  }
+  .btn-watch:hover { border-color:var(--neon-cyan); color:var(--neon-cyan); }
+
+  /* DASHBOARD PANEL */
+  .dashboard { display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; }
+  @media(max-width:900px){ .dashboard{grid-template-columns:1fr;} }
+
+  .dash-card { padding:24px; }
+  .dash-title { font-family:'Orbitron'; font-size:0.85rem; font-weight:700; letter-spacing:2px; color:var(--text-dim); text-transform:uppercase; margin-bottom:20px; display:flex;align-items:center;gap:8px; }
+  .dash-title-dot { width:8px;height:8px;border-radius:50%;box-shadow:0 0 8px; }
+
+  /* PORTFOLIO TRACKER */
+  .portfolio-item {
+    display:flex;align-items:center;gap:12px; padding:12px 0;
+    border-bottom:1px solid rgba(255,255,255,0.04);
+    transition:background .2s; cursor:pointer;
+  }
+  .portfolio-item:last-child { border-bottom:none; }
+  .portfolio-item:hover { background:rgba(0,245,255,0.04); border-radius:6px; padding-left:8px; }
+  .port-icon { width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem; background-size:cover; background-position:center; background-repeat:no-repeat; }
+  .port-name { font-family:'Rajdhani';font-weight:600;font-size:0.95rem; }
+  .port-return { font-family:'Orbitron'; font-size:0.85rem; margin-left:auto; }
+  .pos { color:var(--neon-green); }
+  .neg { color:var(--neon-pink); }
+  .port-amount { font-size:0.75rem; color:var(--text-dim); }
+
+  /* TASK BOARD */
+  .tasks-section { grid-column:span 1; }
+  .task-input-wrap { display:flex;gap:8px;margin-bottom:16px; }
+  .task-input {
+    flex:1; padding:10px 14px;
+    background:rgba(255,255,255,0.05); border:1px solid rgba(0,245,255,0.2);
+    border-radius:6px; color:var(--text); font-family:'Rajdhani'; font-size:0.9rem;
+    outline:none; transition:border-color .3s, box-shadow .3s;
+  }
+  .task-input::placeholder { color:var(--text-dim); }
+  .task-input:focus { border-color:var(--neon-cyan); box-shadow:0 0 12px rgba(0,245,255,0.15); }
+  .task-add-btn {
+    padding:10px 16px; background:linear-gradient(135deg,var(--neon-cyan),var(--neon-purple));
+    border:none; border-radius:6px; font-family:'Orbitron'; font-size:0.75rem; font-weight:700;
+    color:#000; cursor:pointer; transition:all .3s; white-space:nowrap;
+  }
+  .task-add-btn:hover { box-shadow:0 0 16px rgba(0,245,255,0.4); transform:scale(1.05); }
+  .task-list { display:flex;flex-direction:column;gap:8px; max-height:320px; overflow-y:auto; }
+  .task-list::-webkit-scrollbar { width:4px; }
+  .task-list::-webkit-scrollbar-track { background:rgba(255,255,255,0.02); }
+  .task-list::-webkit-scrollbar-thumb { background:var(--neon-purple); border-radius:2px; }
+  .task-item {
+    display:flex;align-items:center;gap:10px; padding:10px 12px;
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06);
+    border-radius:6px; transition:all .3s; cursor:pointer;
+    animation: slideIn .3s ease;
+  }
+  @keyframes slideIn { from{opacity:0;transform:translateX(-10px)} to{opacity:1;transform:translateX(0)} }
+  .task-item:hover { border-color:rgba(0,245,255,0.2); background:rgba(0,245,255,0.05); }
+  .task-item.done .task-text { text-decoration:line-through; color:var(--text-dim); }
+  .task-check {
+    width:18px;height:18px;border-radius:4px;border:1px solid rgba(0,245,255,0.4);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer; transition:all .3s; flex-shrink:0;
+    font-size:10px;
+  }
+  .task-check.checked { background:var(--neon-cyan); border-color:var(--neon-cyan); color:#000; }
+  .task-text { flex:1;font-size:0.88rem;font-family:'Rajdhani';font-weight:500; }
+  .task-priority {
+    padding:2px 8px;border-radius:10px;font-size:0.6rem;letter-spacing:1px;
+    font-family:'Share Tech Mono';text-transform:uppercase;
+  }
+  .priority-high { background:rgba(255,0,110,0.15);border:1px solid rgba(255,0,110,0.3);color:var(--neon-pink); }
+  .priority-med { background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.3);color:var(--neon-gold); }
+  .priority-low { background:rgba(57,255,20,0.1);border:1px solid rgba(57,255,20,0.3);color:var(--neon-green); }
+  .task-del {
+    width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+    border-radius:4px;border:none;background:transparent;color:rgba(255,0,110,0.4);
+    cursor:pointer;font-size:14px;transition:all .3s;
+  }
+  .task-del:hover { background:rgba(255,0,110,0.15);color:var(--neon-pink); }
+
+  /* LEADERBOARD */
+  .leaderboard-item {
+    display:flex;align-items:center;gap:12px;padding:10px 0;
+    border-bottom:1px solid rgba(255,255,255,0.04);
+  }
+  .leaderboard-item:last-child{border-bottom:none}
+  .lb-rank {
+    font-family:'Orbitron';font-size:1rem;font-weight:900;width:28px;text-align:center;
+  }
+  .rank-1{color:var(--neon-gold);filter:drop-shadow(0 0 6px var(--neon-gold));}
+  .rank-2{color:#c0c0c0}
+  .rank-3{color:#cd7f32}
+  .lb-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem; background-size:cover; background-position:center; background-repeat:no-repeat;}
+  .lb-info { flex:1 }
+  .lb-name { font-family:'Rajdhani';font-weight:600;font-size:0.95rem; }
+  .lb-portfolio { font-size:0.72rem;color:var(--text-dim); }
+  .lb-score { font-family:'Orbitron';font-size:0.9rem;color:var(--neon-cyan); }
+
+  /* MODAL */
+  .modal-overlay {
+    position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:100;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(8px);
+  }
+  .modal-overlay.open { opacity:1;pointer-events:all; }
+  .modal {
+    background:rgba(8,13,26,0.95);border:1px solid rgba(0,245,255,0.25);border-radius:16px;
+    padding:40px;max-width:480px;width:90%;
+    box-shadow:0 0 60px rgba(191,0,255,0.2), 0 0 120px rgba(0,245,255,0.1);
+    transform:scale(0.9) translateY(20px);transition:transform .3s;
+    position:relative;overflow:hidden;
+  }
+  .modal-overlay.open .modal { transform:scale(1) translateY(0); }
+  .modal::before {
+    content:''; position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--neon-purple),var(--neon-cyan),var(--neon-pink));
+  }
+  .modal h2 { font-family:'Orbitron';font-size:1.2rem;font-weight:700;margin-bottom:6px; }
+  .modal-sub { font-size:0.85rem;color:var(--text-dim);margin-bottom:28px; }
+  .modal-field { margin-bottom:16px; }
+  .modal-field label { display:block;font-size:0.75rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px; }
+  .modal-field input, .modal-field select {
+    width:100%;padding:12px 16px;
+    background:rgba(255,255,255,0.04);border:1px solid rgba(0,245,255,0.2);
+    border-radius:6px;color:var(--text);font-family:'Rajdhani';font-size:1rem;
+    outline:none;transition:border-color .3s,box-shadow .3s;
+  }
+  .modal-field input:focus, .modal-field select:focus {
+    border-color:var(--neon-cyan);box-shadow:0 0 12px rgba(0,245,255,0.15);
+  }
+  .modal-field select option { background:#08101f; }
+  .modal-actions { display:flex;gap:12px;margin-top:24px; }
+  .modal-invest-btn {
+    flex:1;padding:14px;background:linear-gradient(135deg,var(--neon-purple),var(--neon-cyan));
+    border:none;border-radius:6px;font-family:'Orbitron';font-size:0.8rem;font-weight:700;
+    letter-spacing:1px;color:#fff;cursor:pointer;transition:all .3s;
+  }
+  .modal-invest-btn:hover { box-shadow:0 0 24px rgba(0,245,255,0.4); }
+  .modal-cancel {
+    padding:14px 20px;background:transparent;border:1px solid rgba(255,255,255,0.15);
+    border-radius:6px;font-family:'Rajdhani';font-size:0.9rem;color:var(--text-dim);cursor:pointer;
+    transition:all .3s;
+  }
+  .modal-cancel:hover { border-color:var(--neon-pink);color:var(--neon-pink); }
+  .invest-result {
+    padding:12px 16px;border-radius:6px;margin-top:16px;
+    background:rgba(57,255,20,0.08);border:1px solid rgba(57,255,20,0.25);
+    font-family:'Share Tech Mono';font-size:0.85rem;color:var(--neon-green);
+    display:none;
+  }
+
+  /* TOAST */
+  .toast {
+    position:fixed;bottom:30px;right:30px;z-index:200;
+    padding:14px 24px;background:rgba(8,13,26,0.95);
+    border:1px solid var(--neon-cyan);border-radius:8px;
+    font-family:'Share Tech Mono';font-size:0.85rem;color:var(--neon-cyan);
+    box-shadow:0 0 24px rgba(0,245,255,0.3);
+    transform:translateX(120%);transition:transform .4s ease;
+  }
+  .toast.show { transform:translateX(0); }
+
+  /* FOOTER */
+  footer {
+    border-top:1px solid rgba(0,245,255,0.08);
+    padding:40px 0 24px;margin-top:60px;
+    text-align:center;
+  }
+  .footer-logo { font-family:'Orbitron';font-size:1rem;font-weight:900;letter-spacing:3px;
+    background:linear-gradient(90deg,var(--neon-cyan),var(--neon-purple));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    margin-bottom:12px;
+  }
+  .footer-copy { font-size:0.75rem;color:var(--text-dim);letter-spacing:1px; }
+
+  /* ANIMATED NUMBER */
+  .counter { display:inline-block; }
+
+  /* SCROLL REVEAL */
+  .reveal { opacity:0;transform:translateY(30px);transition:all .7s ease; }
+  .reveal.visible { opacity:1;transform:translateY(0); }
+
+  @media(max-width:768px){
+    .nav-links{display:none}
+    .stats-bar{flex-wrap:wrap}
+    .stat-item{min-width:45%}
+    .startups-grid{grid-template-columns:1fr}
+    .dashboard{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-canvas"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<div class="app">
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">NEXUS<span>.</span>LAUNCH</div>
+    <div class="nav-links">
+      <a href="index.html">Startups(Learn & explore)</a>
+      <a href="file.html">Portfolio(fouder & about)</a>
+      <a href="startupinvent.html">Analytics(Trade)</a>
+      <a href="index2.html">Mentors(palced idea)</a>
+    </div>
+    <button class="nav-cta" onclick="openModal('QuantumAI','Series A','$5M','AI/ML')">INVEST NOW</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge"><span class="live-dot"></span>PLATFORM LIVE — SEASON 3 ACTIVE</div>
+    <h1>Launch the Next<br>Unicorn Startup</h1>
+    <p class="hero-sub">The world's most advanced virtual incubator. Discover, invest, and mentor breakthrough startups with real-time intelligence and neon-powered analytics.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openModal('NexusAI','Seed','$800K','FinTech')"><span>⚡ INVEST NOW</span></button>
+      <button class="btn-secondary" onclick="showToast('🚀 Portfolio tour launching...')">EXPLORE STARTUPS</button>
+    </div>
+  </section>
+
+  <!-- LIVE STATS BAR -->
+  <div class="stats-bar reveal">
+    <div class="stat-item"><div class="stat-num counter" data-target="248">0</div><div class="stat-label"><span class="live-dot"></span>Active Startups</div></div>
+    <div class="stat-item"><div class="stat-num purple counter" data-target="94" data-prefix="$" data-suffix="M">0</div><div class="stat-label">Total Invested</div></div>
+    <div class="stat-item"><div class="stat-num pink counter" data-target="12">0</div><div class="stat-label">Unicorn Exits</div></div>
+    <div class="stat-item"><div class="stat-num green counter" data-target="3840" data-suffix="%">0</div><div class="stat-label">Avg ROI</div></div>
+  </div>
+
+  <!-- STARTUPS -->
+  <section class="section">
+    <div class="section-header reveal"><div class="section-badge">🔥 HOT DEALS</div><h2 class="section-title">Featured Startups</h2></div>
+    <div class="startups-grid" id="startupsGrid"></div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section class="section">
+    <div class="section-header reveal"><div class="section-badge">📊 LIVE DASHBOARD</div><h2 class="section-title">Investment Intelligence</h2></div>
+    <div class="dashboard">
+      <!-- PORTFOLIO -->
+      <div class="glass-card dash-card reveal"><div class="dash-title"><div class="dash-title-dot" style="background:var(--neon-cyan);box-shadow:0 0 8px var(--neon-cyan)"></div>My Portfolio</div><div id="portfolioList"></div><div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center"><span style="font-size:0.8rem;color:var(--text-dim)">Total Value</span><span style="font-family:'Orbitron';font-size:1.1rem;color:var(--neon-green);filter:drop-shadow(0 0 8px var(--neon-green))">$143,200</span></div></div>
+      <!-- TASK BOARD -->
+      <div class="glass-card dash-card tasks-section reveal"><div class="dash-title"><div class="dash-title-dot" style="background:var(--neon-purple);box-shadow:0 0 8px var(--neon-purple)"></div>Task Board</div><div class="task-input-wrap"><input type="text" class="task-input" id="taskInput" placeholder="Add new task..." maxlength="60" onkeydown="if(event.key==='Enter')addTask()"><button class="task-add-btn" onclick="addTask()">+ ADD</button></div><div style="display:flex;gap:6px;margin-bottom:12px"><button onclick="setPriority('high')" id="p-high" style="padding:4px 10px;border-radius:10px;border:1px solid rgba(255,0,110,0.4);background:rgba(255,0,110,0.1);color:var(--neon-pink);font-size:0.7rem;cursor:pointer;font-family:'Share Tech Mono'">HIGH</button><button onclick="setPriority('med')" id="p-med" style="padding:4px 10px;border-radius:10px;border:1px solid rgba(255,215,0,0.4);background:rgba(255,215,0,0.1);color:var(--neon-gold);font-size:0.7rem;cursor:pointer">MED</button><button onclick="setPriority('low')" id="p-low" style="padding:4px 10px;border-radius:10px;border:1px solid rgba(57,255,20,0.4);background:rgba(57,255,20,0.1);color:var(--neon-green);font-size:0.7rem;cursor:pointer">LOW</button><span style="margin-left:auto;font-size:0.72rem;color:var(--text-dim)" id="taskCount">0 tasks</span></div><div class="task-list" id="taskList"></div></div>
+      <!-- LEADERBOARD -->
+      <div class="glass-card dash-card reveal"><div class="dash-title"><div class="dash-title-dot" style="background:var(--neon-gold);box-shadow:0 0 8px var(--neon-gold)"></div>Investor Leaderboard</div><div id="leaderboard"></div></div>
+    </div>
+  </section>
+
+  <footer><div class="footer-logo">NEXUS.LAUNCH</div><div class="footer-copy">© 2026 NexusLaunch Inc. • Virtual Startup Incubator Platform • All rights reserved.</div></footer>
+</div>
+
+<!-- INVEST MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)"><div class="modal"><h2>💸 INVEST IN <span id="modalName">STARTUP</span></h2><p class="modal-sub">Stage: <span id="modalStage" style="color:var(--neon-cyan)"></span> • Target: <span id="modalTarget" style="color:var(--neon-purple)"></span> • Sector: <span id="modalSector" style="color:var(--neon-pink)"></span></p><div class="modal-field"><label>Investment Amount (USD)</label><input type="number" id="investAmount" placeholder="e.g. 5000" min="100" oninput="calcReturn()"></div><div class="modal-field"><label>Investment Term</label><select id="investTerm" onchange="calcReturn()"><option value="12">1 Year</option><option value="24" selected>2 Years</option><option value="36">3 Years</option><option value="60">5 Years</option></select></div><div class="invest-result" id="investResult"></div><div class="modal-actions"><button class="modal-invest-btn" onclick="confirmInvest()">⚡ CONFIRM INVESTMENT</button><button class="modal-cancel" onclick="document.getElementById('modalOverlay').classList.remove('open')">Cancel</button></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// --- IMAGE ASSETS: Emoji replaced with modern brand images (SVG/data URLs for self-contained)
+const imageMap = {
+  'QuantumAI': "/assets/quantumai.png",
+  'OrbitalPay': "/assets/orbitalpay.png",
+  'GreenSync': "/assets/greensync.png",
+  'BioMatrix': "/assets/biomatrix.png",
+  'MetaVerse.X': "/assets/metaverse.png",
+  'CyberShield': "/assets/cybershield.png",
+  'supergaming': "/assets/supergaming.png"
+};
+
+const portImages = {
+  'Sarvam AI': "/assets/sarvam.png",
+  'OrbitalPay': "/assets/orbitalpay.png",
+  'GreenSync': "/assets/greensync.png",
+  'BioMatrix': "/assets/biomatrix.png",
+  'taragaming': "/assets/taragaming.png"
+};
+// Startup dataset
+const startups = [
+   {
+    emoji: '🌿',
+    name: 'ReNew Power',
+    sector: 'CleanTech',
+    desc: 'Leading renewable energy company focusing on wind and solar power solutions.',
+    stage: 'public',
+    stageLabel: 'Public',
+    raised: '$3B+',
+    target: '—',
+    revenue: '$1B+',
+    growth: '25%',
+    team: 4000,
+    progress: 88,
+    roi: '145%',
+    imgKey: 'renewpower'
+  },
+  {
+    emoji: '🧠',
+    name: 'Sarvam AI',
+    sector: 'Artificial Intelligence',
+    desc: 'Building foundational AI models and LLMs tailored for Indian languages and use cases.',
+    stage: 'seed',
+    stageLabel: 'Seed',
+    raised: '$41M+',
+    target: '$60M',
+    revenue: '$5M+',
+    growth: '300%',
+    team: 60,
+    progress: 55,
+    roi: '210%',
+    imgKey: 'sarvam_ai'
+  },
+   {
+    emoji: '🔋',
+    name: 'Exide Energy Solutions',
+    sector: 'CleanTech / EV Batteries',
+    desc: 'Developing advanced lithium-ion battery solutions for EV and energy storage.',
+    stage: 'growth',
+    stageLabel: 'Growth',
+    raised: '$200M+',
+    target: '—',
+    revenue: '$150M+',
+    growth: '30%',
+    team: 1200,
+    progress: 84,
+    roi: '150%',
+    imgKey: 'exideenergy'
+  },
+  
+
+  { emoji:'🕹️', name:'supergaming', sector:'Gaming', desc:'Building India gaming revolution.', stage:'growth', stageLabel:'Growth', raised:'$12M', target:'$18M', revenue:'$4.8M', growth:'190%', team:152, progress:67, roi:'156', imgKey:'supergaming' },
+  { emoji: '⚡',name: 'Ather Energy',sector: 'EV 2 Wheeler', desc: 'Building smart electric scooters and charging infrastructure in India.',stage: 'growth',stageLabel: 'Growth',raised: '$12M',target: '$18M',revenue: '$4.8M',growth: '190%',team: 152,progress: 67,roi: '156%',imgKey: 'ather'},
+  { emoji: '🏍️', name: 'Rapido', sector: 'Bike Taxi & Mobility',desc: 'Providing affordable bike taxi and last-mile mobility solutions across India.',stage: 'growth',stageLabel: 'Growth',raised: '$25M',target: '$40M',revenue: '$10M',growth: '150%',team: 500,progress: 62,roi: '140%',imgKey: 'rapido'},
+  {emoji: '🏨', name: 'OYO', sector: 'Hospitality',desc: 'Global hospitality chain providing affordable hotel and accommodation solutions.',stage: 'late-stage',stageLabel: 'Late Stage',raised: '$3.2B+',target: '—',revenue: '$1B+',growth: '28%',team: 8000,progress: 82,roi: '140%',imgKey: 'oyo'},
+  {
+    emoji: '🛒',
+    name: 'Flipkart',
+    sector: 'E-commerce',
+    desc: 'One of India’s largest e-commerce platforms offering a wide range of products.',
+    stage: 'mature',
+    stageLabel: 'Mature',
+    raised: '$12B+',
+    target: '—',
+    revenue: '$15B+',
+    growth: '25%',
+    team: 20000,
+    progress: 90,
+    roi: '180%',
+    imgKey: 'flipkart'
+  },
+   {
+    emoji: '🍔',
+    name: 'Zomato',
+    sector: 'FoodTech',
+    desc: 'Online food delivery and restaurant discovery platform operating across India.',
+    stage: 'public',
+    stageLabel: 'Public',
+    raised: '$2B+',
+    target: '—',
+    revenue: '$1.5B+',
+    growth: '35%',
+    team: 5000,
+    progress: 88,
+    roi: '170%',
+    imgKey: 'zomato'
+  },
+  {
+    emoji: '💳',
+    name: 'Paytm',
+    sector: 'FinTech',
+    desc: 'Digital payments, banking, and financial services platform widely used across India.',
+    stage: 'public',
+    stageLabel: 'Public',
+    raised: '$5B+',
+    target: '—',
+    revenue: '$1.2B+',
+    growth: '20%',
+    team: 10000,
+    progress: 80,
+    roi: '120%',
+    imgKey: 'paytm'
+  },
+  {
+    emoji: '🛍️',
+    name: 'Meesho',
+    sector: 'Social Commerce',
+    desc: 'Enables small businesses and individuals to sell products via social platforms.',
+    stage: 'late-stage',
+    stageLabel: 'Late Stage',
+    raised: '$1.3B+',
+    target: '—',
+    revenue: '$800M+',
+    growth: '60%',
+    team: 2000,
+    progress: 84,
+    roi: '170%',
+    imgKey: 'meesho'
+  },
+  {
+    emoji: '🏥',
+    name: 'PharmEasy',
+    sector: 'HealthTech',
+    desc: 'Online pharmacy and healthcare platform delivering medicines and diagnostics.',
+    stage: 'late-stage',
+    stageLabel: 'Late Stage',
+    raised: '$1B+',
+    target: '—',
+    revenue: '$700M+',
+    growth: '35%',
+    team: 5000,
+    progress: 80,
+    roi: '140%',
+    imgKey: 'pharmeasy'
+  },
+   {
+    emoji: '🎓',
+    name: 'Unacademy',
+    sector: 'EdTech',
+    desc: 'Online learning platform offering courses for competitive exams and skills.',
+    stage: 'late-stage',
+    stageLabel: 'Late Stage',
+    raised: '$800M+',
+    target: '—',
+    revenue: '$400M+',
+    growth: '30%',
+    team: 6000,
+    progress: 78,
+    roi: '135%',
+    imgKey: 'unacademy'
+  },
+   {
+    emoji: '📦',
+    name: 'Delhivery',
+    sector: 'Logistics',
+    desc: 'Supply chain and logistics company providing end-to-end delivery solutions.',
+    stage: 'public',
+    stageLabel: 'Public',
+    raised: '$1.4B+',
+    target: '—',
+    revenue: '$900M+',
+    growth: '25%',
+    team: 25000,
+    progress: 88,
+    roi: '150%',
+    imgKey: 'delhivery'
+  },
+   {
+    emoji: '🛒',
+    name: 'BigBasket',
+    sector: 'E-commerce / Grocery',
+    desc: 'Online grocery delivery platform serving major cities in India.',
+    stage: 'late-stage',
+    stageLabel: 'Late Stage',
+    raised: '$1B+',
+    target: '—',
+    revenue: '$1B+',
+    growth: '28%',
+    team: 10000,
+    progress: 83,
+    roi: '145%',
+    imgKey: 'bigbasket'
+  },
+  {
+    emoji: '🚗',
+    name: 'Cars24',
+    sector: 'AutoTech',
+    desc: 'Online platform for buying and selling used cars quickly.',
+    stage: 'late-stage',
+    stageLabel: 'Late Stage',
+    raised: '$1B+',
+    target: '—',
+    revenue: '$800M+',
+    growth: '50%',
+    team: 4500,
+    progress: 86,
+    roi: '175%',
+    imgKey: 'cars24'
+  },
+  {
+    emoji: '🏦',
+    name: 'Policybazaar',
+    sector: 'InsurTech',
+    desc: 'Online platform to compare and buy insurance policies.',
+    stage: 'public',
+    stageLabel: 'Public',
+    raised: '$800M+',
+    target: '—',
+    revenue: '$500M+',
+    growth: '22%',
+    team: 7000,
+    progress: 82,
+    roi: '130%',
+    imgKey: 'policybazaar'
+  },
+  {
+    emoji: '💄',
+    name: 'Nykaa',
+    sector: 'Beauty / E-commerce',
+    desc: 'Online and offline beauty and personal care retail platform.',
+    stage: 'public',
+    stageLabel: 'Public',
+    raised: '$500M+',
+    target: '—',
+    revenue: '$1B+',
+    growth: '35%',
+    team: 4000,
+    progress: 90,
+    roi: '160%',
+    imgKey: 'nykaa'
+  },
+   {
+    emoji: '🎧',
+    name: 'boAt',
+    sector: 'Consumer Electronics',
+    desc: 'Popular Indian brand for audio products, wearables, and accessories.',
+    stage: 'late-stage',
+    stageLabel: 'Late Stage',
+    raised: '$170M+',
+    target: '—',
+    revenue: '$600M+',
+    growth: '40%',
+    team: 1500,
+    progress: 87,
+    roi: '165%',
+    imgKey: 'boat'
+  },
+    {
+      emoji: '👓',
+      name: 'Lenskart',
+      sector: 'Eyewear / E-commerce',
+      desc: 'Online platform for buying eyeglasses, sunglasses, and contact lenses.',
+      stage: 'late-stage',
+      stageLabel: 'Late Stage',
+      raised: '$400M+',
+      target: '—',
+      revenue: '$500M+',
+      growth: '30%',
+      team: 3000,
+      progress: 85,
+      roi: '150%',
+      imgKey: 'lenskart'
+    },
+    {
+    emoji: '🔋',
+    name: 'Exide Energy Solutions',
+    sector: 'CleanTech / EV Batteries',
+    desc: 'Developing advanced lithium-ion battery solutions for EV and energy storage.',
+    stage: 'growth',
+    stageLabel: 'Growth',
+    raised: '$200M+',
+    target: '—',
+    revenue: '$150M+',
+    growth: '30%',
+    team: 1200,
+    progress: 84,
+    roi: '150%',
+    imgKey: 'exideenergy'
+  },
+   {
+    emoji: '🧠',
+    name: 'Mad Street Den',
+    sector: 'Artificial Intelligence',
+    desc: 'AI-powered computer vision platform for retail and enterprise solutions.',
+    stage: 'growth',
+    stageLabel: 'Growth',
+    raised: '$50M+',
+    target: '—',
+    revenue: '$20M+',
+    growth: '60%',
+    team: 300,
+    progress: 78,
+    roi: '160%',
+    imgKey: 'madstreetden'
+  },
+   {
+    emoji: '🤖',
+    name: 'Haptik',
+    sector: 'Artificial Intelligence',
+    desc: 'Conversational AI platform providing chatbots and virtual assistants for enterprises.',
+    stage: 'growth',
+    stageLabel: 'Growth',
+    raised: '$100M+',
+    target: '—',
+    revenue: '$50M+',
+    growth: '45%',
+    team: 500,
+    progress: 82,
+    roi: '150%',
+    imgKey: 'haptik'
+  }, {
+    emoji: '📊',
+    name: 'Fractal Analytics',
+    sector: 'Artificial Intelligence',
+    desc: 'AI and analytics company providing decision intelligence solutions to enterprises.',
+    stage: 'late-stage',
+    stageLabel: 'Late Stage',
+    raised: '$500M+',
+    target: '—',
+    revenue: '$300M+',
+    growth: '35%',
+    team: 4000,
+    progress: 90,
+    roi: '165%',
+    imgKey: 'fractal'
+  }
+    
+];
+
+function renderStartups() {
+  const grid = document.getElementById('startupsGrid');
+  grid.innerHTML = startups.map(s => `
+    <div class="glass-card startup-card reveal">
+      <div class="startup-top">
+        <div class="startup-logo" style="background-image: url('${imageMap[s.imgKey] || imageMap.QuantumAI}'); background-size: contain; background-repeat: no-repeat; background-position: center; background-color: rgba(0,0,0,0.3);"></div>
+        <div class="startup-stage stage-${s.stage}">${s.stageLabel}</div>
+      </div>
+      <div class="startup-name">${s.name}</div>
+      <div class="startup-sector">${s.sector}</div>
+      <div class="startup-desc">${s.desc}</div>
+      <div class="startup-metrics"><div class="metric"><div class="metric-val">${s.raised}</div><div class="metric-key">Raised</div></div><div class="metric"><div class="metric-val" style="color:var(--neon-green)">${s.growth}</div><div class="metric-key">MoM Growth</div></div><div class="metric"><div class="metric-val" style="color:var(--neon-purple)">${s.team}</div><div class="metric-key">Team Size</div></div></div>
+      <div class="progress-wrap"><div class="progress-label"><span>Funding Progress</span><span>${s.progress}% of ${s.target}</span></div><div class="progress-bar"><div class="progress-fill" style="width:0%" data-width="${s.progress}%"></div></div></div>
+      <div class="startup-footer"><button class="btn-invest" onclick="openModal('${s.name}','${s.stageLabel}','${s.target}','${s.sector}')">💸 INVEST</button><button class="btn-watch" onclick="showToast('👀 Watching ${s.name}')">WATCH</button></div>
+    </div>
+  `).join('');
+  setTimeout(() => document.querySelectorAll('.progress-fill').forEach(el => el.style.width = el.dataset.width), 400);
+}
+
+// Portfolio rendering (images)
+function renderPortfolio() {
+  const portfolioDiv = document.getElementById('portfolioList');
+  const portfolioItems = [
+    { name:'Sarvam AI', amount:'$25,000', return:'+900%', returnClass:'pos', imgKey:'Sarvam AI' },
+    { name:'OrbitalPay', amount:'$10,000', return:'+92%', returnClass:'pos', imgKey:'OrbitalPay' },
+    { name:'GreenSync', amount:'$5,000', return:'-12%', returnClass:'neg', imgKey:'GreenSync' },
+    { name:'BioMatrix', amount:'$15,000', return:'+340%', returnClass:'pos', imgKey:'BioMatrix' },
+    { name:'taragaming', amount:'$20,000', return:'+240%', returnClass:'pos', imgKey:'taragaming' }
+  ];
+  portfolioDiv.innerHTML = portfolioItems.map(p => `
+    <div class="portfolio-item">
+      <div class="port-icon" style="background-image: url('${portImages[p.imgKey] || imageMap.QuantumAI}'); background-size: cover; background-position: center;"></div>
+      <div><div class="port-name">${p.name}</div><div class="port-amount">${p.amount} invested</div></div>
+      <div class="port-return ${p.returnClass}">${p.return}</div>
+    </div>
+  `).join('');
+}
+
+// Leaderboard with avatars as images
+function renderLeaderboard() {
+  const lbDiv = document.getElementById('leaderboard');
+  lbDiv.innerHTML = `
+    <div class="leaderboard-item"><div class="lb-rank rank-1">1</div><div class="lb-avatar" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23ffd70020\' stroke=\'%23ffd700\' stroke-width=\'2\'/%3E%3Ctext x=\'50\' y=\'70\' font-size=\'44\' fill=\'%23ffd700\' text-anchor=\'middle\'%3E👑%3C/text%3E%3C/svg%3E'); background-size:cover;"></div><div class="lb-info"><div class="lb-name">Alex_Chen</div><div class="lb-portfolio">12 startups • $2.4M</div></div><div class="lb-score">9,840</div></div>
+    <div class="leaderboard-item"><div class="lb-rank rank-2">2</div><div class="lb-avatar" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23c0c0c020\' stroke=\'%23c0c0c0\' stroke-width=\'2\'/%3E%3Ctext x=\'50\' y=\'70\' font-size=\'44\' fill=\'%23c0c0c0\' text-anchor=\'middle\'%3E🦾%3C/text%3E%3C/svg%3E'); background-size:cover;"></div><div class="lb-info"><div class="lb-name">Sarah_Voss</div><div class="lb-portfolio">8 startups • $1.1M</div></div><div class="lb-score">7,220</div></div>
+    <div class="leaderboard-item"><div class="lb-rank rank-3">3</div><div class="lb-avatar" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23cd7f3220\' stroke=\'%23cd7f32\' stroke-width=\'2\'/%3E%3Ctext x=\'50\' y=\'70\' font-size=\'44\' fill=\'%23cd7f32\' text-anchor=\'middle\'%3E⚡%3C/text%3E%3C/svg%3E'); background-size:cover;"></div><div class="lb-info"><div class="lb-name">DevRaj_K</div><div class="lb-portfolio">6 startups • $890K</div></div><div class="lb-score">5,910</div></div>
+    <div class="leaderboard-item"><div class="lb-rank" style="color:var(--text-dim)">4</div><div class="lb-avatar" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%2339ff1420\' stroke=\'%2339ff14\' stroke-width=\'2\'/%3E%3Ctext x=\'50\' y=\'70\' font-size=\'44\' fill=\'%2339ff14\' text-anchor=\'middle\'%3E🌱%3C/text%3E%3C/svg%3E'); background-size:cover;"></div><div class="lb-info"><div class="lb-name">NovaTech22</div><div class="lb-portfolio">4 startups • $430K</div></div><div class="lb-score">3,150</div></div>
+    <div class="leaderboard-item"><div class="lb-rank" style="color:var(--text-dim)">5</div><div class="lb-avatar" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23ff006e20\' stroke=\'%23ff006e\' stroke-width=\'2\'/%3E%3Ctext x=\'50\' y=\'70\' font-size=\'44\' fill=\'%23ff006e\' text-anchor=\'middle\'%3E🔥%3C/text%3E%3C/svg%3E'); background-size:cover;"></div><div class="lb-info"><div class="lb-name">You</div><div class="lb-portfolio">4 startups • $55K</div></div><div class="lb-score" style="color:var(--neon-purple)">2,440</div></div>
+  `;
+}
+
+// Tasks & helpers
+let tasks = [{id:1,text:'Review QuantumAI pitch deck',priority:'high',done:false},{id:2,text:'Due diligence on BioMatrix Q3',priority:'med',done:false},{id:3,text:'Schedule mentor call with founders',priority:'low',done:true}];
+let nextId = 4, currentPriority = 'med';
+function setPriority(p) { currentPriority = p; ['high','med','low'].forEach(x => { let btn = document.getElementById('p-'+x); if(btn) btn.style.opacity = x===p ? '1' : '0.45'; }); }
+function renderTasks() { const list = document.getElementById('taskList'); list.innerHTML = tasks.map(t => `<div class="task-item ${t.done?'done':''}" id="task-${t.id}"><div class="task-check ${t.done?'checked':''}" onclick="toggleTask(${t.id})">${t.done?'✓':''}</div><span class="task-text">${t.text}</span><span class="task-priority priority-${t.priority}">${t.priority}</span><button class="task-del" onclick="deleteTask(${t.id})">✕</button></div>`).join(''); document.getElementById('taskCount').textContent = `${tasks.length} task${tasks.length!==1?'s':''}`; }
+function addTask() { const input = document.getElementById('taskInput'); const text = input.value.trim(); if(!text) return; tasks.unshift({id:nextId++, text, priority:currentPriority, done:false}); input.value = ''; renderTasks(); showToast('✅ Task added!'); }
+function toggleTask(id) { const t = tasks.find(x=>x.id===id); if(t) { t.done=!t.done; renderTasks(); } }
+function deleteTask(id) { const el = document.getElementById('task-'+id); if(el) el.style.transform = 'translateX(20px)'; setTimeout(()=>{ tasks = tasks.filter(x=>x.id!==id); renderTasks(); }, 200); }
+
+let currentStartup = {};
+function openModal(name, stage, target, sector) { currentStartup = {name, stage, target, sector}; document.getElementById('modalName').textContent = name; document.getElementById('modalStage').textContent = stage; document.getElementById('modalTarget').textContent = target; document.getElementById('modalSector').textContent = sector; document.getElementById('investAmount').value = ''; document.getElementById('investResult').style.display = 'none'; document.getElementById('modalOverlay').classList.add('open'); }
+function closeModal(e) { if(e.target === document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('open'); }
+const roiMap = {'QuantumAI':1.87,'OrbitalPay':0.92,'GreenSync':3.12,'BioMatrix':5.1,'MetaVerse.X':2.4,'CyberShield':1.56,'supergaming':1.78};
+function calcReturn() { const amt = parseFloat(document.getElementById('investAmount').value); const months = parseInt(document.getElementById('investTerm').value); if (!amt || amt < 100) { document.getElementById('investResult').style.display='none'; return; } const base = roiMap[currentStartup.name] || 1.5; const annualRate = base / 2; const projected = (amt * (1 + annualRate * months/12)).toFixed(0); const gain = (projected - amt).toFixed(0); const el = document.getElementById('investResult'); el.style.display = 'block'; el.innerHTML = `✅ Projected Return: <strong>$${Number(projected).toLocaleString()}</strong> (+$${Number(gain).toLocaleString()}) over ${months} months`; }
+function confirmInvest() { const amt = parseFloat(document.getElementById('investAmount').value); if (!amt || amt < 100) { showToast('⚠️ Minimum investment is $100'); return; } document.getElementById('modalOverlay').classList.remove('open'); showToast(`🎉 $${Number(amt).toLocaleString()} invested in ${currentStartup.name}!`); }
+function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 3000); }
+function animateCounter(el) { const target = parseInt(el.dataset.target); const prefix = el.dataset.prefix || ''; const suffix = el.dataset.suffix || ''; let current = 0; const step = target / 60; const timer = setInterval(()=>{ current = Math.min(current + step, target); el.textContent = prefix + Math.floor(current).toLocaleString() + suffix; if(current >= target) clearInterval(timer); }, 20); }
+const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); if(e.target.classList.contains('counter')) animateCounter(e.target); } }); }, {threshold:0.15});
+function initObserver() { document.querySelectorAll('.reveal, .counter').forEach(el => observer.observe(el)); }
+renderStartups(); renderPortfolio(); renderLeaderboard(); renderTasks(); setPriority('med'); setTimeout(initObserver, 100);
+</script>
+</body>
+</html>
